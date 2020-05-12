@@ -1,5 +1,7 @@
 {
   "name": "malariaMobil",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
