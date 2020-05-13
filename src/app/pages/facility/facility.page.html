@@ -6,10 +6,19 @@
 <ion-card>
   <ion-row>
     <ion-col size-md="10">
-      <select [(ngModel)]="selectedFacility" class="form-control">
-        <option selected>Please selected Facility</option>
-        <option [value]="ouFacility.id" *ngFor="let ouFacility of facilities">{{ouFacility.name}}</option>
-      </select>
+<!--      <select [(ngModel)]="selectedFacility" class="form-control">-->
+<!--        <option selected>Please selected Facility</option>-->
+<!--        <option [value]="ouFacility.id" *ngFor="let ouFacility of facilities">{{ouFacility.name}}</option>-->
+<!--      </select>-->
+      <ionic-selectable
+              [(ngModel)]="selectedFacility"
+              itemValueField="id"
+              itemTextField="name"
+              [items]="facilities"
+              class=" col-md-10"
+              [canSearch]="true"
+              (onChange)="facChange($event)">
+      </ionic-selectable>
     </ion-col>
     <ion-col size-md="2" align="justify">
       <button class="btn btn-danger" (click)="getFacilityDataByPeriodFilter()">view</button>
@@ -33,6 +42,55 @@
       </tr>
       </tbody>
     </table>
+  </ion-row>
+  <ion-row>
+    <div class="col-md-12">
+      <div class="card ">
+        <div class="card-header ">
+          <h5 class="card-title"> Community statistics</h5>
+        </div>
+        <div class="card-body ">
+          <div class="row">
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="card-header bg-red"></div>
+                <div class="numbers text-center">
+                  <p class="card-category">Total chw in red</p>
+                  <p class="card-title" style="font-size: xx-large">{{facilityInRed}}<p>
+                </div>
+              </div>
+            </div>
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="card-header bg-yellow"></div>
+                <div class="numbers text-center">
+                  <p class="card-category">Total chw in yellow</p>
+                  <p class="card-title" style="font-size: xx-large">{{facilityInYellow}}<p>
+                </div>
+              </div>
+            </div>
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="card-header bg-green"></div>
+                <div class="numbers text-center">
+                  <p class="card-category">Total chw in green</p>
+                  <p class="card-title" style="font-size: xx-large">{{facilityInGreen}}<p>
+                </div>
+              </div>
+            </div>
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="card-header bg-gray"></div>
+                <div class="numbers text-center">
+                  <p class="card-category">Total chw in gray</p>
+                  <p class="card-title" style="font-size: xx-large">{{facilityInGray}}<p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </ion-row>
 
     <div class="card-header">

@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { DistrictPageRoutingModule } from './district-routing.module';
 
 import { DistrictPage } from './district.page';
+import {IonicSelectableModule} from 'ionic-selectable';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    IonicSelectableModule,
     DistrictPageRoutingModule
   ],
   declarations: [DistrictPage]

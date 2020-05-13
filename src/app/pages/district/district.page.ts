@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {MalariaDataStoreModel} from '../../../models/malaria.data.store.model';
+import {IonicSelectableComponent} from 'ionic-selectable';
 
 @Component({
   selector: 'app-district',
@@ -18,7 +19,7 @@ export class DistrictPage implements OnInit {
   districtDataByDistrictPeriod: string[][] = [];
   districtDataHeadersByPeriod: any = [];
   selectedDistrictName: string;
-  selectedDistrict: string;
+  selectedDistrict: any = [];
 
   constructor(private dataSeries: DataService) { }
 
@@ -56,7 +57,7 @@ export class DistrictPage implements OnInit {
     const dx = this.getDimensionDx();
     const levelD: string = this.dataStore.orgUnitLevel[0].facility;
     if (dx !== null) {
-      this.dataSeries.getDataByPeriodFilter(this.selectedDistrict, dx, levelD).subscribe((data: any) => {
+      this.dataSeries.getDataByPeriodFilter(this.selectedDistrict.id, dx, levelD).subscribe((data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.districtDataByFacility = [];
@@ -98,7 +99,7 @@ export class DistrictPage implements OnInit {
     }
     this.getDistrictDataByOrgUnitFilter();
     this.districts.forEach(district => {
-      if (district.id === this.selectedDistrict) {
+      if (district.id === this.selectedDistrict.id) {
         this.selectedDistrictName = district.name;
       }
     });
@@ -106,7 +107,7 @@ export class DistrictPage implements OnInit {
   getDistrictDataByOrgUnitFilter() {
     const dx = this.getDimensionDx();
     if (dx !== null) {
-      this.dataSeries.getDataByOrgUnitFilter(this.selectedDistrict, dx).subscribe((data: any) => {
+      this.dataSeries.getDataByOrgUnitFilter(this.selectedDistrict.id, dx).subscribe((data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.districtDataByDistrictPeriod = [];
@@ -130,5 +131,11 @@ export class DistrictPage implements OnInit {
         }
       });
     }
+  }
+  disChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }) {
+    console.log('redion:', event.value);
   }
 }

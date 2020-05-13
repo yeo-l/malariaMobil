@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MalariaDataStoreModel} from '../../../models/malaria.data.store.model';
 import {DataService} from '../../services/data.service';
+import {IonicSelectableComponent} from 'ionic-selectable';
 
 @Component({
   selector: 'app-facility',
@@ -10,7 +11,7 @@ import {DataService} from '../../services/data.service';
 export class FacilityPage implements OnInit {
   dataStore: MalariaDataStoreModel;
   facilities: any = [{}];
-  selectedFacility: string;
+  selectedFacility: any = [];
   elementName: {} = {};
   facilityInGray = 0; facilityInRed = 0;
   facilityInGreen = 0; facilityInYellow = 0;
@@ -56,7 +57,7 @@ export class FacilityPage implements OnInit {
     const dx = this.getDimensionDx();
     const levelF: string = this.dataStore.orgUnitLevel[0].chw;
     if (dx !== null) {
-      this.dataSeries.getDataByPeriodFilter(this.selectedFacility, dx, levelF).subscribe( (data: any) => {
+      this.dataSeries.getDataByPeriodFilter(this.selectedFacility.id, dx, levelF).subscribe( (data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.facilityDataByCommunity = [];
@@ -98,7 +99,7 @@ export class FacilityPage implements OnInit {
       this.getFacilityDataByOrgUnitFilter();
      // this.getDistrictDataByOrgUnitFilter();
       this.facilities.forEach(facility => {
-        if (facility.id === this.selectedFacility) {
+        if (facility.id === this.selectedFacility.id) {
           this.selectedFacilityName = facility.name;
         }
       });
@@ -107,7 +108,7 @@ export class FacilityPage implements OnInit {
   getFacilityDataByOrgUnitFilter() {
     const dx = this.getDimensionDx();
     if (dx !== null) {
-      this.dataSeries.getDataByOrgUnitFilter(this.selectedFacility, dx).subscribe((data: any) => {
+      this.dataSeries.getDataByOrgUnitFilter(this.selectedFacility.id, dx).subscribe((data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.facilityDataByChwPeriod = [];
@@ -137,5 +138,11 @@ export class FacilityPage implements OnInit {
     this.dataSeries.loadOrganisationUnits(params).subscribe( (chwData: any) => {
       this.chws = chwData.organisationUnits;
     });
+  }
+  facChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }) {
+    console.log('facility:', event.value);
   }
 }

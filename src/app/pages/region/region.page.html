@@ -6,10 +6,19 @@
 <ion-card>
     <ion-row>
         <ion-col size-md="10">
-            <select [(ngModel)]="selectedRegion" class="form-control">
-                <option>Please selected Region</option>
-                <option [value]="ouRegion.id" *ngFor="let ouRegion of regions">{{ouRegion.name}}</option>
-            </select>
+<!--            <select [(ngModel)]="selectedRegion" class="form-control">-->
+<!--                <option>Please selected Region</option>-->
+<!--                <option [value]="ouRegion.id" *ngFor="let ouRegion of regions">{{ouRegion.name}}</option>-->
+<!--            </select>-->
+            <ionic-selectable
+                    [(ngModel)]="selectedRegion"
+                    itemValueField="id"
+                    itemTextField="name"
+                    [items]="regions"
+                    class=" col-md-10"
+                    [canSearch]="true"
+                    (onChange)="onChange($event)">
+            </ionic-selectable>
         </ion-col>
         <ion-col size-md="2" align="justify">
             <button class="btn btn-danger" (click)="getRegionDataByPeriodFilter()">view</button>
@@ -34,13 +43,63 @@
             </tbody>
         </table>
     </ion-row>
+    <ion-row>
+        <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    <h5 class="card-title"> Region statistics</h5>
+                </div>
+                <div class="card-body ">
+                    <div class="row">
+                        <div class="card card-stats">
+                            <div class="card-body ">
+                                <div class="card-header bg-red"></div>
+                                <div class="numbers text-center">
+                                    <p class="card-category">Total District in Red</p>
+                                    <p class="card-title" style="font-size: xx-large">{{regionInRed}}<p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-stats">
+                            <div class="card-body ">
+                                <div class="card-header bg-yellow"></div>
+                                <div class="numbers text-center">
+                                    <p class="card-category">Total District in yellow</p>
+                                    <p class="card-title" style="font-size: xx-large">{{regionInYellow}}<p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-stats">
+                            <div class="card-body ">
+                                <div class="card-header bg-green"></div>
+                                <div class="numbers text-center">
+                                    <p class="card-category">Total District in green</p>
+                                    <p class="card-title" style="font-size: xx-large">{{regionInGreen}}<p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-stats">
+                            <div class="card-body ">
+                                <div class="card-header bg-gray"></div>
+                                <div class="numbers text-center">
+                                    <p class="card-category">Total District in gray"</p>
+                                    <p class="card-title" style="font-size: xx-large">{{regionInGray}}<p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-row>
     <div class="card-header">
         <div class="card-title">Score card table of Region {{selectedRegionName}} over the last 12 months</div>
     </div>
-    <table class="table table-bordered table-responsive">
+    <ion-row>
+        <table class="table table-bordered table-responsive">
         <thead>
         <tr>
-            <th *ngFor="let header of regionDataHeaders">{{header}}</th>
+            <th *ngFor="let header of regionDataHeadersByPeriod">{{header}}</th>
         </tr>
         </thead>
         <tbody>
@@ -49,6 +108,5 @@
         </tr>
         </tbody>
     </table>
-    <div class="row-mt-3"></div>
-    <div class="row-mt-3"></div>
+    </ion-row>
 </ion-content>

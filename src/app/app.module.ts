@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ErrorInterceptor} from './helpers/error.interceptor';
 import {BasicAuthInterceptor} from './helpers/basic-auth.interceptor';
+import {IonicSelectableModule} from 'ionic-selectable';
 
 
 @NgModule({

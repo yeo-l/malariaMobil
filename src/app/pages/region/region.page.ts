@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {MalariaDataStoreModel} from '../../../models/malaria.data.store.model';
 import {MalariaOrgUnitModel} from '../../../models/malaria-orgUnit-model';
+import {IonicSelectableComponent} from 'ionic-selectable';
 
 @Component({
   selector: 'app-region',
@@ -14,7 +15,7 @@ export class RegionPage implements OnInit {
   regions: any = [{}];
   districts: any = [{}];
   loadingRegionData: boolean = true;
-  selectedRegion: string;
+  selectedRegion: any = [];
   elementName: {} = {};
   regionDataByDistrict: string[][] = [];
   regionDataHeaders: any = [];
@@ -61,11 +62,13 @@ export class RegionPage implements OnInit {
     });
   }
   getRegionDataByPeriodFilter() {
+    this.regionDataByDistrict = [];
+    this.regionDataHeaders = [];
     const levelR: string = this.dataStore.orgUnitLevel[0].district;
     console.log(levelR);
     const dx = this.getDimensionDx();
     if (dx !== null) {
-      this.dataSeries.getDataByPeriodFilter(this.selectedRegion, dx, levelR).subscribe( (data: any) => {
+      this.dataSeries.getDataByPeriodFilter(this.selectedRegion.id, dx, levelR).subscribe( (data: any) => {
         const rows = data.rows;
         console.log(data);
         const headers = data.headers;
@@ -110,15 +113,17 @@ export class RegionPage implements OnInit {
     }
     this.getRegionDataByOrgUnitFilter();
     this.regions.forEach(region => {
-      if (region.id === this.selectedRegion) {
+      if (region.id === this.selectedRegion.id) {
         this.selectedRegionName = region.name;
       }
     });
   }
   getRegionDataByOrgUnitFilter() {
+    this.regionDataByDistrictPeriod = [];
+    this.regionDataHeadersByPeriod = [];
     const dx = this.getDimensionDx();
     if (dx !== null) {
-      this.dataSeries.getDataByOrgUnitFilter(this.selectedRegion, dx).subscribe((data: any) => {
+      this.dataSeries.getDataByOrgUnitFilter(this.selectedRegion.id, dx).subscribe((data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.regionDataByDistrictPeriod = [];
@@ -142,5 +147,12 @@ export class RegionPage implements OnInit {
         }
       });
     }
+  }
+
+  onChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }) {
+    console.log('redion:', event.value);
   }
 }
