@@ -1,30 +1,41 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {IMalariaDataStoreModel} from '../../models/malaria.data.store.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  public authenticated: boolean;
-  public token: string;
 
   constructor(private httpClient: HttpClient) {
   }
-  getUrl(url: string, httpOptions) {
-    return this.httpClient.get(url, httpOptions);
+  // getUrl(url: string, httpOptions) {
+  //   return this.httpClient.get(url, httpOptions);
+  // }
+  getDataStore() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return this.httpClient.get<IMalariaDataStoreModel>( user.url + '/api/dataStore/malariaSoreCard/indicator');
+  }
+  loadMetaData(metaData: string, params: string[]) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return this.httpClient.get<[]>(user.url + '/api/' + metaData + '?paging=false' + (params ? '&' + params.join('&') : ''));
   }
 
-  private saveToken() {
-    this.token = '0KLDKDUDGFMalariaV1hEABI';
-    localStorage.setItem('myToken', this.token);
+  loadOrganisationUnits(params) {
+    return this.loadMetaData('organisationUnits', params);
   }
-  public loadToken() {
-    this.token = localStorage.getItem('myToken');
-    if (this.token === '0KLDKDUDGFMalariaV1hEABI' ) {
-      this.authenticated = true;
-    } else {
-      this.authenticated = false;
-    }
-    return true;
+  getDataByPeriodFilter(orgUnitId: string, dx: string, lv: string) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return this.httpClient.get(user.url + '/api/analytics.json?dimension=ou:' + orgUnitId + ';LEVEL-' + lv + '&dimension=dx:' + dx +
+        '&rows=dx&columns=ou&displayProperty=NAME&showHierarchy=true&hideEmptyColumns=true&' +
+        'filter=pe:LAST_12_MONTHS&' +
+        'hideEmptyRows=true&ignoreLimit=true&tableLayout=true');
+  }
+  getDataByOrgUnitFilter(orgUnitId: string, dx: string) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return this.httpClient.get(user.url + '/api/analytics.json?dimension=pe:LAST_12_MONTHS' + '&dimension=dx:' + dx +
+        '&rows=dx&columns=pe' + '&displayProperty=NAME&showHierarchy=true&hideEmptyColumns=false&' +
+        '&filter=ou:' + orgUnitId + '&hideEmptyRows=true&ignoreLimit=true&tableLayout=true');
   }
 }

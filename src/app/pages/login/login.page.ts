@@ -4,6 +4,7 @@ import {HttpHeaders} from '@angular/common/http';
 import {DataService} from '../../services/data.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {first} from 'rxjs/operators';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
     selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginPage implements OnInit {
     bearer: string;
     constructor(private router: Router, private route: ActivatedRoute,
                 private authenticationService: AuthenticationService,
-                private dataService: DataService) {
+                private dataService: DataService, private toastService: ToastService) {
         if (this.authenticationService.userValue) {
             this.router.navigate(['/']);
         }
@@ -88,14 +89,15 @@ export class LoginPage implements OnInit {
             this.authenticationService.login(this.inputUrl, this.loginData.username, this.loginData.password)
                 .pipe(first())
                 .subscribe(data => {
-                    console.log('login data', data);
+                    this.toastService.presentToast('You are connected.');
                     this.router.navigate([this.returnUrl]);
-                    console.log('is login url', this.returnUrl);
-                        // this.router.navigate(['/home']);
-                    }, error => {
-                        this.error = error;
-                        this.loading = false;
-                    });
+                    }, (error: any) => {
+                    this.toastService.presentToast('Network Issue.');
+                });
+        } else {
+            this.toastService.presentToast(
+                'Please enter url and username and password.'
+            );
         }
     }
 

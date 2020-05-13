@@ -32,11 +32,9 @@ export class AuthenticationService {
         };
         return this.http.get<any>(inputUrl + '/api/dataSets', httpOptions).pipe(map(data => {
             let user: any = {};
-           // console.log('data', data);
             user.username = username;
             user.url = inputUrl;
             user.authdata = bearer;
-            console.log(user);
             localStorage.setItem('user', JSON.stringify(user));
             this.userSubject.next(user);
             return user;
@@ -44,15 +42,6 @@ export class AuthenticationService {
             console.log('User authentication failed!', err);
             // console.log('httpOptions', httpOptions);
         }));
-        // return this.http.get<any>(inputUrl + '/dhis-web-commons-security/login.action', { j_username: username, j_password: password })
-        //     .pipe(map(user => {
-        //         console.log('user:', user);
-        //         // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
-        //         user.authdata = window.btoa(username + ':' + password);
-        //         localStorage.setItem('user', JSON.stringify(user));
-        //         this.userSubject.next(user);
-        //         return user;
-        //     }));
     }
     logout() {
         // remove user from local storage to log user out

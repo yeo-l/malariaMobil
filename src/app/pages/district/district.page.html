@@ -3,7 +3,52 @@
     <ion-title>district</ion-title>
   </ion-toolbar>
 </ion-header>
-
+<ion-card>
+  <ion-row>
+    <ion-col size-md="10">
+      <select [(ngModel)]="selectedDistrict" class="form-control">
+        <option>Please selected District</option>
+        <option [value]="ouDistrict.id" *ngFor="let ouDistrict of districts">{{ouDistrict.name}}</option>
+      </select>
+    </ion-col>
+    <ion-col size-md="2" align="justify">
+      <button class="btn btn-danger" (click)="getDistrictDataByPeriodFilter()">view</button>
+    </ion-col>
+  </ion-row>
+</ion-card>
 <ion-content>
-
+  <div class="card-header">
+    <div class="card-title">Score card table of {{selectedDistrictName}} District</div>
+  </div>
+  <ion-row>
+    <table class="table table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th *ngFor="let headerD of districtDataHeaders">{{headerD}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rowDf of districtDataByFacility">
+          <td class="{{i == 0 ? '' : ( columnDf == '' ? 'bg-gray': (columnDf >= 70 ? 'bg-green': (columnDf <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDf of rowDf; let i = index">{{columnDf}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ion-row>
+  <div class="card-header">
+    <div class="card-title">Score card table of District {{selectedDistrictName}} over the last 12 months</div>
+  </div>
+  <ion-row>
+    <table class="table table-bordered table-responsive">
+      <thead>
+      <tr>
+        <th  *ngFor="let headerDP of districtDataHeadersByPeriod">{{headerDP}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let rowDp of districtDataByDistrictPeriod">
+        <td class="{{i == 0 ? '' : ( columnDp == '' ? 'bg-gray': (columnDp >= 70 ? 'bg-green': (columnDp <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDp of rowDp; let i = index">{{columnDp}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </ion-row>
 </ion-content>

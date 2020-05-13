@@ -1,9 +1,54 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>region</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-title>region</ion-title>
+    </ion-toolbar>
 </ion-header>
-
+<ion-card>
+    <ion-row>
+        <ion-col size-md="10">
+            <select [(ngModel)]="selectedRegion" class="form-control">
+                <option>Please selected Region</option>
+                <option [value]="ouRegion.id" *ngFor="let ouRegion of regions">{{ouRegion.name}}</option>
+            </select>
+        </ion-col>
+        <ion-col size-md="2" align="justify">
+            <button class="btn btn-danger" (click)="getRegionDataByPeriodFilter()">view</button>
+        </ion-col>
+    </ion-row>
+</ion-card>
 <ion-content>
-
+    <div class="card-header">
+        <div class="card-title">Score card table of {{selectedRegionName}} region</div>
+    </div>
+    <ion-row >
+        <table class="table table-bordered table-responsive data-mobile-responsive">
+            <thead>
+            <tr>
+                <th *ngFor="let header of regionDataHeaders">{{header}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of regionDataByDistrict">
+                <td class="{{i == 0 ? '' : ( column == '' ? 'bg-gray': (column >= 70 ? 'bg-green': (column <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let column of row; let i = index">{{column}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </ion-row>
+    <div class="card-header">
+        <div class="card-title">Score card table of Region {{selectedRegionName}} over the last 12 months</div>
+    </div>
+    <table class="table table-bordered table-responsive">
+        <thead>
+        <tr>
+            <th *ngFor="let header of regionDataHeaders">{{header}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of regionDataByDistrict">
+            <td class="{{i == 0 ? '' : ( column == '' ? 'bg-gray': (column >= 70 ? 'bg-green': (column <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let column of row; let i = index">{{column}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row-mt-3"></div>
+    <div class="row-mt-3"></div>
 </ion-content>

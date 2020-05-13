@@ -3,7 +3,53 @@
     <ion-title>facility</ion-title>
   </ion-toolbar>
 </ion-header>
-
+<ion-card>
+  <ion-row>
+    <ion-col size-md="10">
+      <select [(ngModel)]="selectedFacility" class="form-control">
+        <option selected>Please selected Facility</option>
+        <option [value]="ouFacility.id" *ngFor="let ouFacility of facilities">{{ouFacility.name}}</option>
+      </select>
+    </ion-col>
+    <ion-col size-md="2" align="justify">
+      <button class="btn btn-danger" (click)="getFacilityDataByPeriodFilter()">view</button>
+    </ion-col>
+  </ion-row>
+</ion-card>
 <ion-content>
+  <div class="card-header">
+    <div class="card-title">Score card table of {{selectedFacilityName}} Facility</div>
+  </div>
+  <ion-row>
+    <table class="table table-bordered table-responsive">
+      <thead>
+      <tr>
+        <th *ngFor="let headerF of facilityDataHeaders">{{headerF}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let rowFD of facilityDataByCommunity">
+        <td class="{{i == 0 ? '' : ( columnFp == '' ? 'bg-gray': (columnFp >= 70 ? 'bg-green': (columnFp <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnFp of rowFD; let i = index">{{columnFp}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </ion-row>
 
+    <div class="card-header">
+      <div class="card-title">Score card table of Facility {{selectedFacilityName}} over the last 12 months</div>
+    </div>
+  <ion-row>
+    <table class="table table-bordered table-responsive">
+      <thead>
+      <tr>
+        <th *ngFor="let headerFP of facilityDataHeadersByPeriod">{{headerFP}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let rowFP of facilityDataByCommunity">
+        <td class="{{i == 0 ? '' : ( columnFpe == '' ? 'bg-gray': (columnFpe >= 70 ? 'bg-green': (columnFpe <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnFpe of rowFP; let i = index">{{columnFpe}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </ion-row>
 </ion-content>
