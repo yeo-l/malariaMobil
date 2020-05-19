@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {MalariaDataStoreModel} from '../../../models/malaria.data.store.model';
-import {MalariaOrgUnitModel} from '../../../models/malaria-orgUnit-model';
 import {IonicSelectableComponent} from 'ionic-selectable';
 
 @Component({
@@ -38,7 +37,6 @@ export class RegionPage implements OnInit {
       });
       this.getOrgUnitRegion();
     });
-
   }
   getDimensionDx() {
     const elements: string[] = [];
@@ -155,4 +153,5 @@ export class RegionPage implements OnInit {
   }) {
     console.log('redion:', event.value);
   }
+
 }

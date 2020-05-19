@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {HttpHeaders} from '@angular/common/http';
 import {DataService} from '../../services/data.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {first} from 'rxjs/operators';
 import {ToastService} from '../../services/toast.service';
+import {DatabaseService} from '../../services/databas.service';
+import {IUser} from '../../../models/user';
 
 @Component({
     selector: 'app-login',
@@ -21,8 +22,9 @@ export class LoginPage implements OnInit {
     submitted = false;
     returnUrl: string;
     error = '';
-    bearer: string;
-    constructor(private router: Router, private route: ActivatedRoute,
+    users: IUser[] = [];
+    user = {};
+    constructor(private router: Router, private route: ActivatedRoute, private db: DatabaseService,
                 private authenticationService: AuthenticationService,
                 private dataService: DataService, private toastService: ToastService) {
         if (this.authenticationService.userValue) {
@@ -32,8 +34,14 @@ export class LoginPage implements OnInit {
 
     ngOnInit() {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
-        console.log(this.route.snapshot.queryParams['returnUrl'] );
-        console.log(this.returnUrl);
+        this.db.getDatabaseState().subscribe(rdy => {
+            if (rdy) {
+                this.db.getUser().subscribe(data => {
+                    console.log('====> user change in oninit of page.ts ====>' + JSON.stringify(data) );
+                    this.users = data;
+                });
+            }
+        });
     }
     validateInputs() {
         const username = this.loginData.username.trim();
@@ -82,23 +90,25 @@ export class LoginPage implements OnInit {
     //     });
     // }
     login() {
-        this.submitted = true;
-        // stop here if form is invalid
-        if (this.validateInputs()) {
-            this.loading = true;
-            this.authenticationService.login(this.inputUrl, this.loginData.username, this.loginData.password)
-                .pipe(first())
-                .subscribe(data => {
-                    this.toastService.presentToast('You are connected.');
-                    this.router.navigate([this.returnUrl]);
-                    }, (error: any) => {
-                    this.toastService.presentToast('Network Issue.');
-                });
-        } else {
-            this.toastService.presentToast(
-                'Please enter url and username and password.'
-            );
-        }
+        const loadauthdata = 'abctest';
+        this.db.addUser(this.loginData.username, this.inputUrl, this.loginData.password, loadauthdata);
+        // this.submitted = true;
+        // // stop here if form is invalid
+        // if (this.validateInputs()) {
+        //     this.loading = true;
+        //     this.authenticationService.login(this.inputUrl, this.loginData.username, this.loginData.password)
+        //         .pipe(first())
+        //         .subscribe(data => {
+        //             this.toastService.presentToast('You are connected.');
+        //             this.router.navigate([this.returnUrl]);
+        //             }, (error: any) => {
+        //             this.toastService.presentToast('Network Issue.');
+        //         });
+        // } else {
+        //     this.toastService.presentToast(
+        //         'Please enter url and username and password.'
+        //     );
+        // }
     }
 
 }

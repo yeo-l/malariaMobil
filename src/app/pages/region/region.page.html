@@ -27,7 +27,18 @@
 </ion-card>
 <ion-content>
     <div class="card-header">
-        <div class="card-title">Score card table of {{selectedRegionName}} region</div>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="card-title">Score card table of {{selectedRegionName}} region</div>
+            </div>
+            <div class="col-md-1">
+                <ion-col size="3">
+                    <ion-button>
+                        <ion-icon slot="icon-only" name="share"></ion-icon>share
+                    </ion-button>
+                </ion-col>
+            </div>
+        </div>
     </div>
     <ion-row >
         <table class="table table-bordered table-responsive data-mobile-responsive">
@@ -51,42 +62,42 @@
                 </div>
                 <div class="card-body ">
                     <div class="row">
-                        <div class="card card-stats">
-                            <div class="card-body ">
-                                <div class="card-header bg-red"></div>
-                                <div class="numbers text-center">
-                                    <p class="card-category">Total District in Red</p>
-                                    <p class="card-title" style="font-size: xx-large">{{regionInRed}}<p>
+                            <div class="card card-stats">
+                                <div class="card-body ">
+                                    <div class="card-header bg-red"></div>
+                                    <div class="numbers text-center">
+                                        <p class="card-category">Total District in Red</p>
+                                        <p class="card-title" style="font-size: xx-large">{{regionInRed}}<p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card card-stats">
-                            <div class="card-body ">
-                                <div class="card-header bg-yellow"></div>
-                                <div class="numbers text-center">
-                                    <p class="card-category">Total District in yellow</p>
-                                    <p class="card-title" style="font-size: xx-large">{{regionInYellow}}<p>
+                            <div class="card card-stats">
+                                <div class="card-body ">
+                                    <div class="card-header bg-yellow"></div>
+                                    <div class="numbers text-center">
+                                        <p class="card-category">Total District in yellow</p>
+                                        <p class="card-title" style="font-size: xx-large">{{regionInYellow}}<p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card card-stats">
-                            <div class="card-body ">
-                                <div class="card-header bg-green"></div>
-                                <div class="numbers text-center">
-                                    <p class="card-category">Total District in green</p>
-                                    <p class="card-title" style="font-size: xx-large">{{regionInGreen}}<p>
+                            <div class="card card-stats">
+                                <div class="card-body ">
+                                    <div class="card-header bg-green"></div>
+                                    <div class="numbers text-center">
+                                        <p class="card-category">Total District in green</p>
+                                        <p class="card-title" style="font-size: xx-large">{{regionInGreen}}<p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card card-stats">
-                            <div class="card-body ">
-                                <div class="card-header bg-gray"></div>
-                                <div class="numbers text-center">
-                                    <p class="card-category">Total District in gray"</p>
-                                    <p class="card-title" style="font-size: xx-large">{{regionInGray}}<p>
+                            <div class="card card-stats">
+                                <div class="card-body ">
+                                    <div class="card-header bg-gray"></div>
+                                    <div class="numbers text-center">
+                                        <p class="card-category">Total District in gray"</p>
+                                        <p class="card-title" style="font-size: xx-large">{{regionInGray}}<p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

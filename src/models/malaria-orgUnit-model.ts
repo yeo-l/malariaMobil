@@ -4,7 +4,7 @@ export interface IMalariaOrgUnitModel {
   facility?: string;
   chw?: string;
 }
-export class MalariaOrgUnitModel implements IMalariaOrgUnitModel{
+export class MalariaOrgUnitModel implements IMalariaOrgUnitModel {
   constructor(public region?: string,
               public district?: string,
               public facility?: string,

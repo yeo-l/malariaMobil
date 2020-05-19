@@ -9,7 +9,8 @@ import { AppComponent } from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ErrorInterceptor} from './helpers/error.interceptor';
 import {BasicAuthInterceptor} from './helpers/basic-auth.interceptor';
-import {IonicSelectableModule} from 'ionic-selectable';
+import {SQLite} from '@ionic-native/sqlite/ngx';
+import {SQLitePorter} from '@ionic-native/sqlite-porter/ngx';
 
 
 @NgModule({
@@ -21,6 +22,8 @@ import {IonicSelectableModule} from 'ionic-selectable';
     StatusBar,
     SplashScreen,
     HttpClientModule,
+    SQLite,
+    SQLitePorter,
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
