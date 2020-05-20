@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {MalariaDataStoreModel} from '../../../models/malaria.data.store.model';
 import {IonicSelectableComponent} from 'ionic-selectable';
+import {User} from '../../../models/user';
+import {OrganisationUnit} from '../../../models/organisationUnit';
+import {DatabaseService} from '../../services/databas.service';
 
 @Component({
   selector: 'app-region',
@@ -25,18 +28,49 @@ export class RegionPage implements OnInit {
   regionInGreen = 0;
   regionInYellow = 0;
   selectedRegionName: string;
-  constructor(private dataSeries: DataService) { }
+
+  user: User;
+  organisationUnits: OrganisationUnit[];
+
+  constructor(private dataService: DataService, private databaseService: DatabaseService) { }
 
   ngOnInit(): void {
-    this.dataSeries.getDataStore().subscribe( ds => {
-      this.dataStore = ds;
-      this.dataStore.indicators.forEach(indicator => {
-        if (indicator.dhisID !== null) {
-          this.elementName[indicator.dhisID] = indicator.name;
-        }
-      });
-      this.getOrgUnitRegion();
+    this.databaseService.loadDataStore(this.user.url).then( result => {
+      if (result.rows.length > 0) {
+        this.dataStore = JSON.parse(result.rows.item(0).dataValues);
+        this.dataStore.indicators.forEach(indicator => {
+          if (indicator.dhisID !== null) {
+            this.elementName[indicator.dhisID] = indicator.name;
+          }
+        });
+        this.getOrgUnitRegion(parseInt(this.dataStore.orgUnitLevel[0].region, 10));
+      }
     });
+    // if (this.user.domain === 'server') {
+    //   this.dataService.getDataStore().subscribe( ds => {
+    //     this.dataStore = ds;
+    //     this.dataStore.indicators.forEach(indicator => {
+    //       if (indicator.dhisID !== null) {
+    //         this.elementName[indicator.dhisID] = indicator.name;
+    //       }
+    //     });
+    //     this.getOrgUnitRegion();
+    //   });
+    // } else if (this.user.domain === 'local') {
+    // }
+  }
+  getOrgUnitRegion(level: number) {
+    this.loadingRegionData = false;
+    this.databaseService.loadOrganisationUnit(this.user.url).then( result => {
+      if (result.rows.length > 0) {
+        this.organisationUnits = JSON.parse(result.rows.item(0).orgUnitData);
+        this.regions = this.organisationUnits.filter(orgUnit => orgUnit.level === level);
+      }
+    });
+      // const params: string[] = ['fields=id,name&filter=level:eq:' + this.dataStore.orgUnitLevel[0].region];
+      // this.dataService.loadOrganisationUnits(params).subscribe( (OURegion: any) => {
+      //   this.regions = OURegion.organisationUnits;
+      // });
   }
   getDimensionDx() {
     const elements: string[] = [];
@@ -50,15 +84,6 @@ export class RegionPage implements OnInit {
     }
     return null;
   }
-  getOrgUnitRegion() {
-    this.loadingRegionData = false;
-    const params: string[] = ['fields=id,name&filter=level:eq:' + this.dataStore.orgUnitLevel[0].region];
-    console.log(this.dataStore.orgUnitLevel[0].region);
-    this.dataSeries.loadOrganisationUnits(params).subscribe( (OURegion: any) => {
-      this.regions = OURegion.organisationUnits;
-      console.log('regiion', this.regions);
-    });
-  }
   getRegionDataByPeriodFilter() {
     this.regionDataByDistrict = [];
     this.regionDataHeaders = [];
@@ -66,7 +91,7 @@ export class RegionPage implements OnInit {
     console.log(levelR);
     const dx = this.getDimensionDx();
     if (dx !== null) {
-      this.dataSeries.getDataByPeriodFilter(this.selectedRegion.id, dx, levelR).subscribe( (data: any) => {
+      this.dataService.getDataByPeriodFilter(this.selectedRegion.id, dx, levelR).subscribe( (data: any) => {
         const rows = data.rows;
         console.log(data);
         const headers = data.headers;
@@ -121,7 +146,7 @@ export class RegionPage implements OnInit {
     this.regionDataHeadersByPeriod = [];
     const dx = this.getDimensionDx();
     if (dx !== null) {
-      this.dataSeries.getDataByOrgUnitFilter(this.selectedRegion.id, dx).subscribe((data: any) => {
+      this.dataService.getDataByOrgUnitFilter(this.selectedRegion.id, dx).subscribe((data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.regionDataByDistrictPeriod = [];
@@ -153,5 +178,4 @@ export class RegionPage implements OnInit {
   }) {
     console.log('redion:', event.value);
   }
-
 }

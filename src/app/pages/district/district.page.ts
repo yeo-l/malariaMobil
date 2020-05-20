@@ -21,10 +21,10 @@ export class DistrictPage implements OnInit {
   selectedDistrictName: string;
   selectedDistrict: any = [];
 
-  constructor(private dataSeries: DataService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataSeries.getDataStore().subscribe( ds => {
+    this.dataService.getDataStore().subscribe( ds => {
       this.dataStore = ds;
       this.dataStore.indicators.forEach(indicator => {
         if (indicator.dhisID !== null) {
@@ -37,7 +37,7 @@ export class DistrictPage implements OnInit {
   }
   getOrgUnitDistrict() {
     const params: string[] = ['fields=id,name&filter=level:eq:' + this.dataStore.orgUnitLevel[0].district];
-    this.dataSeries.loadOrganisationUnits(params).subscribe( (DistrictData: any) => {
+    this.dataService.loadOrganisationUnits(params).subscribe( (DistrictData: any) => {
       this.districts = DistrictData.organisationUnits;
     });
   }
@@ -57,7 +57,7 @@ export class DistrictPage implements OnInit {
     const dx = this.getDimensionDx();
     const levelD: string = this.dataStore.orgUnitLevel[0].facility;
     if (dx !== null) {
-      this.dataSeries.getDataByPeriodFilter(this.selectedDistrict.id, dx, levelD).subscribe((data: any) => {
+      this.dataService.getDataByPeriodFilter(this.selectedDistrict.id, dx, levelD).subscribe((data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.districtDataByFacility = [];
@@ -107,7 +107,7 @@ export class DistrictPage implements OnInit {
   getDistrictDataByOrgUnitFilter() {
     const dx = this.getDimensionDx();
     if (dx !== null) {
-      this.dataSeries.getDataByOrgUnitFilter(this.selectedDistrict.id, dx).subscribe((data: any) => {
+      this.dataService.getDataByOrgUnitFilter(this.selectedDistrict.id, dx).subscribe((data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.districtDataByDistrictPeriod = [];

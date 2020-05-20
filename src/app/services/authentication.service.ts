@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
 export class AuthenticationService {
     private userSubject: BehaviorSubject<User>;
     public user: Observable<User>;
+     public  account: User | null = null;
 
     constructor(
         private router: Router,
@@ -20,6 +21,10 @@ export class AuthenticationService {
 
     public get userValue(): User {
         return this.userSubject.value;
+    }
+    isAuthenticated(): boolean {
+        console.log('************ this user ' + JSON.stringify(this.account));
+        return this.account !== null;
     }
 
     login(inputUrl: string, username: string, password: string) {
@@ -34,19 +39,34 @@ export class AuthenticationService {
             let user: any = {};
             user.username = username;
             user.url = inputUrl;
+            user.password = password;
             user.authdata = bearer;
+            user.domain = 'server'
             localStorage.setItem('user', JSON.stringify(user));
             this.userSubject.next(user);
+            this.account = user;
             return user;
         }, err => {
             console.log('User authentication failed!', err);
             // console.log('httpOptions', httpOptions);
         }));
     }
+    localLogin(authenticatedUser) {
+        let user: any = authenticatedUser;
+        // user.username = authenticatedUser.username;
+        // user.url = authenticatedUser.url;
+        // user.password = authenticatedUser.password;
+        this.userSubject.next(user);
+        this.user = this.userSubject.asObservable();
+        user.domain = 'local';
+        this.account = user;
+        localStorage.setItem('user', JSON.stringify(user));
+    }
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('user');
         this.userSubject.next(null);
+        this.account = null;
         this.router.navigate(['/login']);
     }
 }

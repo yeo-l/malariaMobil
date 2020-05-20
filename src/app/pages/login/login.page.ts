@@ -37,7 +37,6 @@ export class LoginPage implements OnInit {
         this.db.getDatabaseState().subscribe(rdy => {
             if (rdy) {
                 this.db.getUser().subscribe(data => {
-                    console.log('====> user change in oninit of page.ts ====>' + JSON.stringify(data) );
                     this.users = data;
                 });
             }
@@ -90,25 +89,38 @@ export class LoginPage implements OnInit {
     //     });
     // }
     login() {
-        const loadauthdata = 'abctest';
-        this.db.addUser(this.loginData.username, this.inputUrl, this.loginData.password, loadauthdata);
-        // this.submitted = true;
-        // // stop here if form is invalid
-        // if (this.validateInputs()) {
-        //     this.loading = true;
-        //     this.authenticationService.login(this.inputUrl, this.loginData.username, this.loginData.password)
-        //         .pipe(first())
-        //         .subscribe(data => {
-        //             this.toastService.presentToast('You are connected.');
-        //             this.router.navigate([this.returnUrl]);
-        //             }, (error: any) => {
-        //             this.toastService.presentToast('Network Issue.');
-        //         });
-        // } else {
-        //     this.toastService.presentToast(
-        //         'Please enter url and username and password.'
-        //     );
-        // }
+        this.submitted = true;
+        // stop here if form is invalid
+        if (this.validateInputs()) {
+            this.loading = true;
+            this.authenticationService.login(this.inputUrl, this.loginData.username, this.loginData.password)
+                .pipe(first())
+                .subscribe(data => {
+                    this.db.addUser(this.loginData.username, this.inputUrl, this.loginData.password);
+                    this.toastService.presentToast('You are connected.');
+                    this.router.navigate([this.returnUrl]);
+                    console.log('=====> created user first connected ====>' + JSON.stringify(data));
+                    }, (error: any) => {
+                       console.log('======> error +++++' + JSON.stringify(error));
+                       if (this.authenticationService.isAuthenticated() === false) {
+                        console.log('=====> connected with local user data ====>');
+                        this.db.authenticateLocalUser(this.inputUrl, this.loginData.username, this.loginData.password)
+                            .then((s: any) => {
+                                console.log('$$$$$ local Data====>' + JSON.stringify(s));
+                                if (this.authenticationService.isAuthenticated()) {
+                                    this.toastService.presentToast('You are connected.');
+                                    this.router.navigate([this.returnUrl]);
+                                } else {
+                                    this.toastService.presentToast('you are not authenticated.');
+                                }
+                            });
+                    }
+                });
+        } else {
+            this.toastService.presentToast(
+                'Please enter url and username and password.'
+            );
+        }
     }
 
 }

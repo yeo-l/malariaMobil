@@ -22,10 +22,10 @@ export class FacilityPage implements OnInit {
   selectedFacilityName: string;
   chws: any = [{}];
 
-  constructor(private dataSeries: DataService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataSeries.getDataStore().subscribe( ds => {
+    this.dataService.getDataStore().subscribe( ds => {
       this.dataStore = ds;
       this.dataStore.indicators.forEach(indicator => {
         if (indicator.dhisID !== null) {
@@ -37,7 +37,7 @@ export class FacilityPage implements OnInit {
   }
   getOrgUnitFacility() {
     const params: string[] = ['fields=id,name&filter=level:eq:' + this.dataStore.orgUnitLevel[0].facility];
-    this.dataSeries.loadOrganisationUnits(params).subscribe( (facilityData: any) => {
+    this.dataService.loadOrganisationUnits(params).subscribe( (facilityData: any) => {
       this.facilities = facilityData.organisationUnits;
     });
   }
@@ -57,7 +57,7 @@ export class FacilityPage implements OnInit {
     const dx = this.getDimensionDx();
     const levelF: string = this.dataStore.orgUnitLevel[0].chw;
     if (dx !== null) {
-      this.dataSeries.getDataByPeriodFilter(this.selectedFacility.id, dx, levelF).subscribe( (data: any) => {
+      this.dataService.getDataByPeriodFilter(this.selectedFacility.id, dx, levelF).subscribe( (data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.facilityDataByCommunity = [];
@@ -108,7 +108,7 @@ export class FacilityPage implements OnInit {
   getFacilityDataByOrgUnitFilter() {
     const dx = this.getDimensionDx();
     if (dx !== null) {
-      this.dataSeries.getDataByOrgUnitFilter(this.selectedFacility.id, dx).subscribe((data: any) => {
+      this.dataService.getDataByOrgUnitFilter(this.selectedFacility.id, dx).subscribe((data: any) => {
         const rows = data.rows;
         const headers = data.headers;
         this.facilityDataByChwPeriod = [];
@@ -135,7 +135,7 @@ export class FacilityPage implements OnInit {
   }
   getOrgUnitChw() {
     const params: string[] = ['fields=id,name&filter=level:eq:' + this.dataStore.orgUnitLevel[0].facility];
-    this.dataSeries.loadOrganisationUnits(params).subscribe( (chwData: any) => {
+    this.dataService.loadOrganisationUnits(params).subscribe( (chwData: any) => {
       this.chws = chwData.organisationUnits;
     });
   }
