@@ -11,10 +11,13 @@ import {ErrorInterceptor} from './helpers/error.interceptor';
 import {BasicAuthInterceptor} from './helpers/basic-auth.interceptor';
 import {SQLite} from '@ionic-native/sqlite/ngx';
 import {SQLitePorter} from '@ionic-native/sqlite-porter/ngx';
+import {ConnectionStatusComponent} from './connection-status/connection-status.component';
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
+import {File} from '@ionic-native/file/ngx';
 
 
 @NgModule({
-  declarations: [AppComponent],
+    declarations: [AppComponent, ConnectionStatusComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(),
     AppRoutingModule, HttpClientModule],
@@ -24,9 +27,11 @@ import {SQLitePorter} from '@ionic-native/sqlite-porter/ngx';
     HttpClientModule,
     SQLite,
     SQLitePorter,
-    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    SocialSharing,
+    File,
+    {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
   bootstrap: [AppComponent]
 })

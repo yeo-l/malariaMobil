@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import {SQLitePorter} from '@ionic-native/sqlite-porter/ngx';
 import {SQLite, SQLiteObject} from '@ionic-native/sqlite/ngx';
 import {Platform} from '@ionic/angular';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {IUser, User} from '../../models/user';
+import {IUser} from '../../models/user';
 import {AuthenticationService} from './authentication.service';
 
 @Injectable({
@@ -14,9 +14,6 @@ export class DatabaseService {
     users = new BehaviorSubject([]);
     private database: SQLiteObject;
     private databaseReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-   // private userSubject: BehaviorSubject<User>;
-   // public user: Observable<User>;
 
     constructor( private sqLitePorter: SQLitePorter, private sqLite: SQLite,
                  private platform: Platform, private http: HttpClient, private authenticationService: AuthenticationService) {
@@ -59,7 +56,6 @@ export class DatabaseService {
                            domain : res.rows.item(i).domain,
                         });
                     }
-                    console.log('get Users', users);
                 }
                 this.users.next(users);
             });
@@ -69,10 +65,8 @@ export class DatabaseService {
         this.getOneUser(url, password, username).then(dataUser => {
             if (dataUser.rows.length === 0) {
                 const sql = 'INSERT INTO scoreUser (username, url, password ) VALUES (?, ?, ?)';
-                console.log('=====> Enter in addUser ====>' + JSON.stringify(dataUser));
                 return this.database.executeSql(sql, data)
                     .then(dataS => {
-                        console.log('=====> addUser executed ====>' + JSON.stringify(dataS));
                         this.loadUser();
                     });
             }
@@ -86,7 +80,6 @@ export class DatabaseService {
             .then(_ => {
                 if (_.rows.length === 1) {
                     this.authenticationService.localLogin(_.rows.item(0));
-                    console.log('=====> localSorage ====>' + JSON.stringify(_.rows.item(0)));
                 } else {
                     console.log('=====> localSorage is empty ====>');
                 }
@@ -98,9 +91,17 @@ export class DatabaseService {
     loadDataStore(url) {
         return this.database.executeSql('SELECT * FROM dataStore WHERE instanceUrl= ?', [url]);
     }
-    loadAnalyticsData() {
-        return this.database.executeSql('SELECT * FROM analyticsData', [])
-            .then(_ => {});
+    loadAnalyticsData(url, orgUnitID) {
+        return this.database.executeSql('SELECT * FROM analyticsData where url= ? AND orgUnitID= ?', [url, orgUnitID]);
+    }
+    saveAnalyticsData(url: string, orgUnitID: string, orgUnitData: string, periodData: string) {
+        const dateCreated = new Date();
+        return this.database.executeSql('INSERT INTO analyticsData (url, dateCreated, period, orgUnitID, orgUnitData, periodData, monthExecuted, yearExecuted ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [url, dateCreated, 'LAST_12_MONTHS', orgUnitID, orgUnitData, periodData, dateCreated.getMonth(), dateCreated.getFullYear()]);
+    }
+    updateAnalyticsData(url: string, orgUnitID: string, orgUnitData: string, periodData: string) {
+        const dateCreated = new Date();
+        return this.database.executeSql('UPDATE analyticsData SET period = ?, orgUnitID = ?, orgUnitData = ?, periodData = ?, monthExecuted = ?, yearExecuted = ?  WHERE url = ? AND orgUnitID = ?', ['LAST_12_MONTHS', orgUnitData, periodData, dateCreated.getMonth(), dateCreated.getFullYear(), url, orgUnitID ]);
+
     }
     updateDataStore(url: string, data: string) {
         return this.database.executeSql('UPDATE dataStore SET  dataValues = ? WHERE instanceUrl = ?', [data, url]);

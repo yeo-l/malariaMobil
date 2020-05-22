@@ -60,7 +60,7 @@ export class WelcomePage implements OnInit {
                 if (res.rows.length === 0) {
                     this.databaseService.saveOrgUnit(this.user.url, JSON.stringify(result)).then();
                 } else {
-                    this.databaseService.updateOrgUnit(this.user.url, JSON.stringify(this.dataStore)).then();
+                    this.databaseService.updateOrgUnit(this.user.url, JSON.stringify(result)).then();
                 }
             });
         });
