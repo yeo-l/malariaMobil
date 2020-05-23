@@ -38,4 +38,32 @@ export class DataService {
         '&rows=dx&columns=pe' + '&displayProperty=NAME&showHierarchy=true&hideEmptyColumns=false&' +
         '&filter=ou:' + orgUnitId + '&hideEmptyRows=true&ignoreLimit=true&tableLayout=true');
   }
+  getColor(target: number, value: number, achieved: number, notInTrack: number): string {
+    const red = 'bg-red';
+    const green = 'bg-green';
+    const yellow = 'bg-yellow';
+    const gray = 'bg-gray';
+    if (isNaN(value)) {
+      return gray;
+    } else {
+      if (target === 0) {
+        if (value < achieved ) {
+          return green;
+        } else if (value < notInTrack && value >= achieved) {
+          return yellow;
+        } else {
+          return red;
+        }
+      } else {
+        if (value >= achieved ) {
+          return green;
+        } else if (value > notInTrack && value < achieved) {
+          return yellow;
+        } else {
+          return red;
+        }
+      }
+    }
+  }
+
 }

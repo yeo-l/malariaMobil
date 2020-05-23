@@ -23,7 +23,6 @@ export class AuthenticationService {
         return this.userSubject.value;
     }
     isAuthenticated(): boolean {
-        console.log('************ this user ' + JSON.stringify(this.account));
         return this.account !== null;
     }
 

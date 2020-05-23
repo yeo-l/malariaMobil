@@ -23,40 +23,42 @@ export class DistrictPage implements OnInit {
   districtDataHeadersByPeriod: any = [];
   selectedDistrictName: string;
   selectedDistrict: any = [];
+  targetInfo: {} = {};
+  orgUnitDataColors: string[][] = [[]];
+  periodDataColors: string[][] = [[]];
   user: User;
   organisationUnits: OrganisationUnit[];
 
   constructor(private dataService: DataService, private databaseService: DatabaseService) { }
 
   ngOnInit() {
-    // this.dataSeries.getDataStore().subscribe( ds => {
-    //   this.dataStore = ds;
-    //   this.dataStore.indicators.forEach(indicator => {
-    //     if (indicator.dhisID !== null) {
-    //       this.elementName[indicator.dhisID] = indicator.name;
-    //     }
-    //   });
-    //   this.getOrgUnitDistrict();
-    // });
     this.user = JSON.parse(localStorage.getItem('user'));
     if (this.user.url) {
       this.databaseService.loadDataStore(this.user.url).then( result => {
         if (result.rows.length > 0) {
           this.dataStore = JSON.parse(result.rows.item(0).dataValues);
           this.dataStore.indicators.forEach(indicator => {
-            if (indicator.dhisID !== null) {
+            if (indicator.dhisID !== null && indicator.dhisID !== '') {
               this.elementName[indicator.dhisID] = indicator.name;
+              this.targetInfo[indicator.dhisID + '.achieved'] = indicator.achieved;
+              this.targetInfo[indicator.dhisID + '.target'] = indicator.target;
+              this.targetInfo[indicator.dhisID + '.notInTrack'] = indicator.notInTrack;
             }
           });
           this.getOrgUnitDistrict(parseInt(this.dataStore.orgUnitLevel[0].district, 10));
         }
       });
     }
-
   }
+
+  getColor(target: number, value: number, achieved: number, notInTrack: number): string {
+    return this.dataService.getColor(target, value, achieved, notInTrack);
+  }
+
   getLocalStorageData() {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
+
   getOrgUnitDistrict(level: number) {
     this.databaseService.loadOrganisationUnit(this.user.url).then( result => {
       if (result.rows.length > 0) {
@@ -66,12 +68,7 @@ export class DistrictPage implements OnInit {
     });
 
   }
-  // getOrgUnitDistrict() {
-  //   const params: string[] = ['fields=id,name&filter=level:eq:' + this.dataStore.orgUnitLevel[0].district];
-  //   this.dataSeries.loadOrganisationUnits(params).subscribe( (DistrictData: any) => {
-  //     this.districts = DistrictData.organisationUnits;
-  //   });
-  // }
+
   getDimensionDx() {
     const elements: string[] = [];
     for (let i = 0 ; i < this.dataStore.indicators.length; i++) {
@@ -88,6 +85,8 @@ export class DistrictPage implements OnInit {
   getDistrictDataByPeriodFilter() {
     this.districtDataByFacility = [];
     this.districtDataHeaders = [];
+    this.orgUnitDataColors.splice(0, this.orgUnitDataColors.length);
+    this.periodDataColors.splice(0, this.periodDataColors.length);
     if (this.user.domain === 'server') {
       const levelR: string = this.dataStore.orgUnitLevel[0].facility;
       const dx = this.getDimensionDx();
@@ -125,33 +124,28 @@ export class DistrictPage implements OnInit {
       const columns = rows[i];
       let count = 0;
       const columnData: string[] = [];
+      const colors = [];
+      let id = '';
       for (let j = 0; j < columns.length; j++) {
+        id = columns[0];
         if (headers[j].column === 'dataid') {
           columnData[count] = this.elementName[columns[j]];
           this.districtDataHeaders[count] = 'Indicators';
+          colors[count] = '';
           count++;
         } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
           columnData[count] = columns[j];
           this.districtDataHeaders[count] = headers[j].column;
+          colors[count] = this.getColor(parseFloat(this.targetInfo[id + '.target']),
+              parseFloat(columnData[count]),
+              parseFloat(this.targetInfo[id + '.achieved']),
+              parseFloat(this.targetInfo[id + '.notInTrack']));
           count ++;
-          if (parseFloat(columns[j]) >= 70) {
-            this.districtInGreen ++;
-          }
-          if (parseFloat(columns[j]) < 40) {
-            this.districtInRed ++;
-          }
-          if (isNaN(parseFloat(columns[j]))) {
-            this.districtInGray ++;
-          }
-          if (parseFloat(columns[j]) < 70 && parseFloat(columns[j]) >= 40) {
-            this.districtInYellow ++;
-          }
         }
       }
+      this.orgUnitDataColors[i] = colors;
       this.districtDataByFacility.push(columnData);
     }
-    console.log('header',  this.districtDataHeaders);
-    console.log('columnd', this.districtDataByFacility);
   }
 
   getAnalyticsDataByPeriod(rows: any, headers: any) {
@@ -160,18 +154,27 @@ export class DistrictPage implements OnInit {
     for (let i = 0; i < rows.length; i++) {
       const columns = rows[i];
       let count = 0;
+      let id = '';
+      const colors = [];
       const columnData: string[] = [];
       for (let j = 0; j < columns.length; j++) {
         if (headers[j].column === 'dataid') {
           columnData[count] = this.elementName[columns[j]];
+          id = columns[j];
           this.districtDataHeadersByPeriod[count] = 'Indicators';
+          colors[count] = '';
           count++;
         } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
           columnData[count] = columns[j];
           this.districtDataHeadersByPeriod[count] = headers[j].column;
+          colors[count] = this.getColor(parseFloat(this.targetInfo[id + '.target']),
+              parseFloat(columnData[count]),
+              parseFloat(this.targetInfo[id + '.achieved']),
+              parseFloat(this.targetInfo[id + '.notInTrack']));
           count ++;
         }
       }
+      this.periodDataColors[i] = colors;
       this.districtDataByDistrictPeriod.push(columnData);
     }
   }

@@ -13,10 +13,7 @@ import {IUser} from '../../../models/user';
     styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-    loginData = {
-        username: '',
-        password: ''
-    };
+    loginData = {username: '', password: ''};
     inputUrl: '';
     loading = false;
     submitted = false;
@@ -55,42 +52,8 @@ export class LoginPage implements OnInit {
             inputUrl.length > 0
         );
     }
-    // connectedLogin() {
-    //     const auth = this.dataService.loadToken();
-    //     if (auth) {
-    //         this.router.navigate(['/home/welcome']);
-    //     } else {
-    //         if (this.validateInputs()) {
-    //             console.log('url', this.inputUrl);
-    //             console.log('user', this.loginData.username);
-    //             console.log('password', this.loginData.password);
-    //             this.router.navigate(['/home']);
-    //             this.getUrl();
-    //         }
-    //     }
-    // }
-    // getUrl() {
-    //     this.bearer = btoa( this.loginData.username + ':' + this.loginData.password);
-    //     console.log('bearer: ', this.bearer);
-    //     const httpOptions = {
-    //         headers: new HttpHeaders({
-    //             'Content-Type': 'application/json',
-    //             'Authorization': 'Basic ' + this.bearer
-    //         })
-    //     };
-    //     // console.log(btoa( this.loginData.username + ':' + this.loginData.password));
-    //     // console.log( this.loginData.username + ':' + this.loginData.password);
-    //     // let options = new RequestOptions({ headers: headers });
-    //     this.dataService.getUrl(this.inputUrl + '/api/login', httpOptions).subscribe((data: any) => {
-    //         console.log('data', data);
-    //     }, err => {
-    //         console.log('User authentication failed!', err);
-    //         // console.log('httpOptions', httpOptions);
-    //     });
-    // }
     login() {
         this.submitted = true;
-        // stop here if form is invalid
         if (this.validateInputs()) {
             this.loading = true;
             this.authenticationService.login(this.inputUrl, this.loginData.username, this.loginData.password)
@@ -99,14 +62,10 @@ export class LoginPage implements OnInit {
                     this.db.addUser(this.loginData.username, this.inputUrl, this.loginData.password);
                     this.toastService.presentToast('You are connected.');
                     this.router.navigate([this.returnUrl]);
-                    console.log('=====> created user first connected ====>' + JSON.stringify(data));
-                    }, (error: any) => {
-                       console.log('======> error +++++' + JSON.stringify(error));
-                       if (this.authenticationService.isAuthenticated() === false) {
-                        console.log('=====> connected with local user data ====>');
+                }, (error: any) => {
+                    if (this.authenticationService.isAuthenticated() === false) {
                         this.db.authenticateLocalUser(this.inputUrl, this.loginData.username, this.loginData.password)
                             .then((s: any) => {
-                                console.log('$$$$$ local Data====>' + JSON.stringify(s));
                                 if (this.authenticationService.isAuthenticated()) {
                                     this.toastService.presentToast('You are connected.');
                                     this.router.navigate([this.returnUrl]);

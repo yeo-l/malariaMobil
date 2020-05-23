@@ -6,31 +6,19 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e720f8b-010f-4c45-8bef-031242c876ed" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/app/connection-status/connection-status.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/app/connection-status/connection-status.component.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/app/connection-status/connection-status.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/app/connection-status/connection-status.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/app/services/sharing.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/app.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/app.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/home/home.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/home/home.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/home/home.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/home/home.page.ts" afterDir="false" />
+    <list default="true" id="c30055dd-43bc-4887-9696-f724a97ce3d1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/district/district.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/district/district.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/district/district.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/district/district.page.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/pages/login/login.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/login/login.page.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/region/region.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/region/region.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/region/region.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/region/region.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/pages/welcome/welcome.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/welcome/welcome.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/pages/welcome/welcome.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/welcome/welcome.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/services/databas.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/services/databas.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/shared/constants.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/services/authentication.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/services/authentication.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/services/data.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/services/data.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/services/sharing.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/services/sharing.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/models/malaria.indicator.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/models/malaria.indicator.model.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +26,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_25" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -59,11 +47,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1cF4wdL3vH28kuRYGqhOlaRyCcp" />
+  <component name="ProjectId" id="1cHvIwpAqG7svGosZ5Jgnpjho1k" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-22T01:37:31.892Z" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
@@ -144,11 +130,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2e720f8b-010f-4c45-8bef-031242c876ed" name="Default Changelist" comment="" />
-      <created>1590111247686</created>
+      <changelist id="c30055dd-43bc-4887-9696-f724a97ce3d1" name="Default Changelist" comment="" />
+      <created>1590198258102</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1590111247686</updated>
+      <updated>1590198258102</updated>
     </task>
     <servers />
   </component>

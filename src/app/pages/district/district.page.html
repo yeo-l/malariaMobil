@@ -37,60 +37,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let rowDf of districtDataByFacility">
-          <td class="{{i == 0 ? '' : ( columnDf == '' ? 'bg-gray': (columnDf >= 70 ? 'bg-green': (columnDf <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDf of rowDf; let i = index">{{columnDf}}</td>
+        <tr *ngFor="let rowDf of districtDataByFacility; let i = index">
+          <td class="{{orgUnitDataColors[i][j]}} align-middle" *ngFor="let columnDf of rowDf; let j = index">{{columnDf}}</td>
+<!--          <td class="{{i == 0 ? '' : ( columnDf == '' ? 'bg-gray': (columnDf >= 70 ? 'bg-green': (columnDf <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDf of rowDf; let i = index">{{columnDf}}</td>-->
         </tr>
       </tbody>
     </table>
-  </ion-row>
-  <ion-row>
-    <div class="col-md-12">
-      <div class="card ">
-        <div class="card-header ">
-          <h5 class="card-title"> facility statistics</h5>
-        </div>
-        <div class="card-body ">
-          <div class="row">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="card-header bg-red"></div>
-                <div class="numbers text-center">
-                  <p class="card-category">Total facility in red</p>
-                  <p class="card-title" style="font-size: xx-large">{{districtInRed}}<p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="card-header bg-yellow"></div>
-                <div class="numbers text-center">
-                  <p class="card-category">Total Facility in yellow</p>
-                  <p class="card-title" style="font-size: xx-large">{{districtInYellow}}<p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="card-header bg-green"></div>
-                <div class="numbers  text-center">
-                  <p class="card-category">Total Facility in green</p>
-                  <p class="card-title" style="font-size: xx-large">{{districtInGreen}}<p>
-                </div>
-              </div>
-            </div>
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="card-header bg-gray"></div>
-                <div class="numbers  text-center">
-                  <p class="card-category">Total facility in gray</p>
-                  <p class="card-title" style="font-size: xx-large">{{districtInGray}}<p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </ion-row>
   <div class="card-header">
     <div class="card-title">Score card table of District {{selectedDistrictName}} over the last 12 months</div>
@@ -103,8 +55,9 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let rowDp of districtDataByDistrictPeriod">
-        <td class="{{i == 0 ? '' : ( columnDp == '' ? 'bg-gray': (columnDp >= 70 ? 'bg-green': (columnDp <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDp of rowDp; let i = index">{{columnDp}}</td>
+      <tr *ngFor="let rowDp of districtDataByDistrictPeriod; let i = index">
+        <td class="{{periodDataColors[i][j]}} align-middle" *ngFor="let columnDp of rowDp; let j = index">{{columnDp}}</td>
+<!--        <td class="{{i == 0 ? '' : ( columnDp == '' ? 'bg-gray': (columnDp >= 70 ? 'bg-green': (columnDp <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDp of rowDp; let i = index">{{columnDp}}</td>-->
       </tr>
       </tbody>
     </table>

@@ -29,5 +29,10 @@ export class SharingService {
     }
 
     shareWhatsApp() {}
+    share() {
+        this.socialSharing.share(null, this.text,`${this.file.applicationDirectory}www.assets.images/malariaSc_logo.png`, this.url)
+            .then(() => {
+            }).catch(e => {});
+    }
 }
 

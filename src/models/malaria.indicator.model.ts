@@ -4,6 +4,9 @@ export interface IMalariaIndicatorModel {
     dhisName: string;
     groupCode: string;
     type: string;
+    target: number;
+    achieved: number;
+    notInTrack: number;
 }
 
 export class MalariaIndicatorModel implements IMalariaIndicatorModel {
@@ -11,6 +14,9 @@ export class MalariaIndicatorModel implements IMalariaIndicatorModel {
                 public dhisID: string,
                 public dhisName: string,
                 public groupCode: string,
-                public type: string) {
+                public type: string,
+                public target: number,
+                public achieved: number,
+                public notInTrack: number) {
     }
 }

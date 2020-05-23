@@ -28,6 +28,9 @@ export class RegionPage implements OnInit {
   regionInGreen = 0;
   regionInYellow = 0;
   selectedRegionName: string;
+  targetInfo: {} = {};
+  orgUnitDataColors: string[][] = [[]];
+  periodDataColors: string[][] = [[]];
 
   user: User;
   organisationUnits: OrganisationUnit[];
@@ -41,14 +44,20 @@ export class RegionPage implements OnInit {
         if (result.rows.length > 0) {
           this.dataStore = JSON.parse(result.rows.item(0).dataValues);
           this.dataStore.indicators.forEach(indicator => {
-            if (indicator.dhisID !== null) {
+            if (indicator.dhisID !== null && indicator.dhisID !== '') {
               this.elementName[indicator.dhisID] = indicator.name;
+              this.targetInfo[indicator.dhisID + '.achieved'] = indicator.achieved;
+              this.targetInfo[indicator.dhisID + '.target'] = indicator.target;
+              this.targetInfo[indicator.dhisID + '.notInTrack'] = indicator.notInTrack;
             }
           });
           this.getOrgUnitRegion(parseInt(this.dataStore.orgUnitLevel[0].region, 10));
         }
       });
     }
+  }
+  getColor(target: number, value: number, achieved: number, notInTrack: number): string {
+    return this.dataService.getColor(target, value, achieved, notInTrack);
   }
 
   getLocalStorageData() {
@@ -81,6 +90,8 @@ export class RegionPage implements OnInit {
   getRegionDataByPeriodFilter() {
     this.regionDataByDistrict = [];
     this.regionDataHeaders = [];
+    this.orgUnitDataColors.splice(0, this.orgUnitDataColors.length);
+    this.periodDataColors.splice(0, this.periodDataColors.length);
     if (this.user.domain === 'server') {
       const levelR: string = this.dataStore.orgUnitLevel[0].district;
       const dx = this.getDimensionDx();
@@ -118,33 +129,28 @@ export class RegionPage implements OnInit {
       const columns = rows[i];
       let count = 0;
       const columnData: string[] = [];
+      const colors = [];
+      let id = '';
       for (let j = 0; j < columns.length; j++) {
+        id = columns[0];
         if (headers[j].column === 'dataid') {
           columnData[count] = this.elementName[columns[j]];
           this.regionDataHeaders[count] = 'Indicators';
+          colors[count] = '';
           count++;
         } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
           columnData[count] = columns[j];
           this.regionDataHeaders[count] = headers[j].column;
+          colors[count] = this.getColor(parseFloat(this.targetInfo[id + '.target']),
+              parseFloat(columnData[count]),
+              parseFloat(this.targetInfo[id + '.achieved']),
+              parseFloat(this.targetInfo[id + '.notInTrack']));
           count ++;
-          if (parseFloat(columns[j]) >= 70) {
-            this.regionInGreen ++;
-          }
-          if (parseFloat(columns[j]) < 40) {
-            this.regionInRed ++;
-          }
-          if (isNaN(parseFloat(columns[j]))) {
-            this.regionInGray ++;
-          }
-          if (parseFloat(columns[j]) < 70 && parseFloat(columns[j]) >= 40) {
-            this.regionInYellow ++;
-          }
         }
       }
+      this.orgUnitDataColors[i] = colors;
       this.regionDataByDistrict.push(columnData);
     }
-    console.log('header',  this.regionDataHeaders);
-    console.log('columnd', this.regionDataByDistrict);
   }
 
   getAnalyticsDataByPeriod(rows: any, headers: any) {
@@ -153,18 +159,27 @@ export class RegionPage implements OnInit {
     for (let i = 0; i < rows.length; i++) {
       const columns = rows[i];
       let count = 0;
+      let id = '';
+      const colors = [];
       const columnData: string[] = [];
       for (let j = 0; j < columns.length; j++) {
         if (headers[j].column === 'dataid') {
           columnData[count] = this.elementName[columns[j]];
+          id = columns[j];
           this.regionDataHeadersByPeriod[count] = 'Indicators';
+          colors[count] = '';
           count++;
         } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
           columnData[count] = columns[j];
           this.regionDataHeadersByPeriod[count] = headers[j].column;
+          colors[count] = this.getColor(parseFloat(this.targetInfo[id + '.target']),
+              parseFloat(columnData[count]),
+              parseFloat(this.targetInfo[id + '.achieved']),
+              parseFloat(this.targetInfo[id + '.notInTrack']));
           count ++;
         }
       }
+      this.periodDataColors[i] = colors;
       this.regionDataByDistrictPeriod.push(columnData);
     }
   }
@@ -194,7 +209,7 @@ export class RegionPage implements OnInit {
     console.log('redion:', event.value);
   }
   shareTwitter() {
-    this.sharingService.shareTwitter();
+    this.sharingService.share();
   }
   shareWhatsApp() {}
 }

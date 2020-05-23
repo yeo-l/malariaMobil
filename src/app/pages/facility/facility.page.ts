@@ -23,6 +23,9 @@ export class FacilityPage implements OnInit {
   facilityDataByChwPeriod: string[][] = [];
   facilityDataHeadersByPeriod: any = [];
   selectedFacilityName: string;
+  targetInfo: {} = {};
+  orgUnitDataColors: string[][] = [[]];
+  periodDataColors: string[][] = [[]];
   chws: any = [{}];
   user: User;
   organisationUnits: OrganisationUnit[];
@@ -36,23 +39,17 @@ export class FacilityPage implements OnInit {
         if (result.rows.length > 0) {
           this.dataStore = JSON.parse(result.rows.item(0).dataValues);
           this.dataStore.indicators.forEach(indicator => {
-            if (indicator.dhisID !== null) {
+            if (indicator.dhisID !== null && indicator.dhisID !== '') {
               this.elementName[indicator.dhisID] = indicator.name;
+              this.targetInfo[indicator.dhisID + '.achieved'] = indicator.achieved;
+              this.targetInfo[indicator.dhisID + '.target'] = indicator.target;
+              this.targetInfo[indicator.dhisID + '.notInTrack'] = indicator.notInTrack;
             }
           });
           this.getOrgUnitFacility(parseInt(this.dataStore.orgUnitLevel[0].facility, 10));
         }
       });
     }
-    // this.dataService.getDataStore().subscribe( ds => {
-    //   this.dataStore = ds;
-    //   this.dataStore.indicators.forEach(indicator => {
-    //     if (indicator.dhisID !== null) {
-    //       this.elementName[indicator.dhisID] = indicator.name;
-    //     }
-    //   });
-    //   this.getOrgUnitFacility();
-    // });
   }
 
   getOrgUnitFacility(level: number) {
@@ -64,15 +61,12 @@ export class FacilityPage implements OnInit {
     });
 
   }
+  getColor(target: number, value: number, achieved: number, notInTrack: number): string {
+    return this.dataService.getColor(target, value, achieved, notInTrack);
+  }
   getLocalStorageData() {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
-  // getOrgUnitFacility() {
-  //   const params: string[] = ['fields=id,name&filter=level:eq:' + this.dataStore.orgUnitLevel[0].facility];
-  //   this.dataService.loadOrganisationUnits(params).subscribe( (facilityData: any) => {
-  //     this.facilities = facilityData.organisationUnits;
-  //   });
-  // }
   getDimensionDx() {
     const elements: string[] = [];
     for (let i = 0 ; i < this.dataStore.indicators.length; i++) {
@@ -89,6 +83,8 @@ export class FacilityPage implements OnInit {
   getFacilityDataByPeriodFilter() {
     this.facilityDataByCommunity = [];
     this.facilityDataHeaders = [];
+    this.orgUnitDataColors.splice(0, this.orgUnitDataColors.length);
+    this.periodDataColors.splice(0, this.periodDataColors.length);
     if (this.user.domain === 'server') {
       const levelR: string = this.dataStore.orgUnitLevel[0].chw;
       const dx = this.getDimensionDx();
@@ -126,33 +122,28 @@ export class FacilityPage implements OnInit {
       const columns = rows[i];
       let count = 0;
       const columnData: string[] = [];
+      const colors = [];
+      let id = '';
       for (let j = 0; j < columns.length; j++) {
+        id = columns[0];
         if (headers[j].column === 'dataid') {
           columnData[count] = this.elementName[columns[j]];
           this.facilityDataHeaders[count] = 'Indicators';
+          colors[count] = '';
           count++;
         } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
           columnData[count] = columns[j];
           this.facilityDataHeaders[count] = headers[j].column;
+          colors[count] = this.getColor(parseFloat(this.targetInfo[id + '.target']),
+              parseFloat(columnData[count]),
+              parseFloat(this.targetInfo[id + '.achieved']),
+              parseFloat(this.targetInfo[id + '.notInTrack']));
           count ++;
-          if (parseFloat(columns[j]) >= 70) {
-            this.facilityInGreen ++;
-          }
-          if (parseFloat(columns[j]) < 40) {
-            this.facilityInRed ++;
-          }
-          if (isNaN(parseFloat(columns[j]))) {
-            this.facilityInGray ++;
-          }
-          if (parseFloat(columns[j]) < 70 && parseFloat(columns[j]) >= 40) {
-            this.facilityInYellow ++;
-          }
         }
       }
+      this.orgUnitDataColors[i] = colors;
       this.facilityDataByCommunity.push(columnData);
     }
-    console.log('header',  this.facilityDataHeaders);
-    console.log('columnd', this.facilityDataByCommunity);
   }
 
   getAnalyticsDataByPeriod(rows: any, headers: any) {
@@ -161,18 +152,27 @@ export class FacilityPage implements OnInit {
     for (let i = 0; i < rows.length; i++) {
       const columns = rows[i];
       let count = 0;
+      let id = '';
+      const colors = [];
       const columnData: string[] = [];
       for (let j = 0; j < columns.length; j++) {
         if (headers[j].column === 'dataid') {
           columnData[count] = this.elementName[columns[j]];
+          id = columns[j];
           this.facilityDataHeadersByPeriod[count] = 'Indicators';
+          colors[count] = '';
           count++;
         } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
           columnData[count] = columns[j];
           this.facilityDataHeadersByPeriod[count] = headers[j].column;
+          colors[count] = this.getColor(parseFloat(this.targetInfo[id + '.target']),
+              parseFloat(columnData[count]),
+              parseFloat(this.targetInfo[id + '.achieved']),
+              parseFloat(this.targetInfo[id + '.notInTrack']));
           count ++;
         }
       }
+      this.periodDataColors[i] = colors;
       this.facilityDataByChwPeriod.push(columnData);
     }
   }
