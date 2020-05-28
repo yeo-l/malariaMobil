@@ -5,6 +5,7 @@ import {IonicSelectableComponent} from 'ionic-selectable';
 import {DatabaseService} from '../../services/databas.service';
 import {User} from '../../../models/user';
 import {OrganisationUnit} from '../../../models/organisationUnit';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-district',
@@ -15,8 +16,6 @@ export class DistrictPage implements OnInit {
   dataStore: MalariaDataStoreModel;
   districts: any = [{}];
   elementName: {} = {};
-  districtInGray = 0; districtInRed = 0;
-  districtInGreen = 0; districtInYellow = 0;
   districtDataByFacility: string[][] = [];
   districtDataHeaders: any = [];
   districtDataByDistrictPeriod: string[][] = [];
@@ -29,7 +28,8 @@ export class DistrictPage implements OnInit {
   user: User;
   organisationUnits: OrganisationUnit[];
 
-  constructor(private dataService: DataService, private databaseService: DatabaseService) { }
+  constructor(private dataService: DataService, private databaseService: DatabaseService,
+              public toast: ToastService) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -85,6 +85,8 @@ export class DistrictPage implements OnInit {
   getDistrictDataByPeriodFilter() {
     this.districtDataByFacility = [];
     this.districtDataHeaders = [];
+    this.districtDataByDistrictPeriod = [];
+    this.districtDataHeadersByPeriod = [];
     this.orgUnitDataColors.splice(0, this.orgUnitDataColors.length);
     this.periodDataColors.splice(0, this.periodDataColors.length);
     if (this.user.domain === 'server') {
@@ -116,10 +118,6 @@ export class DistrictPage implements OnInit {
   getAnalyticsDataByOrgUnit(rows: any, headers: any) {
     this.districtDataByFacility = [];
     this.districtDataHeaders = [];
-    this.districtInGreen = 0;
-    this.districtInGray = 0;
-    this.districtInYellow = 0;
-    this.districtInRed = 0;
     for (let i = 0; i < rows.length; i++) {
       const columns = rows[i];
       let count = 0;

@@ -14,13 +14,14 @@ import {SQLitePorter} from '@ionic-native/sqlite-porter/ngx';
 import {ConnectionStatusComponent} from './connection-status/connection-status.component';
 import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 import {File} from '@ionic-native/file/ngx';
+import {ExportAsModule} from 'ngx-export-as';
 
 
 @NgModule({
     declarations: [AppComponent, ConnectionStatusComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(),
-    AppRoutingModule, HttpClientModule],
+    AppRoutingModule, HttpClientModule, ExportAsModule],
   providers: [
     StatusBar,
     SplashScreen,

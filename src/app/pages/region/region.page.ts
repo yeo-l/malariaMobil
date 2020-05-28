@@ -6,6 +6,13 @@ import {User} from '../../../models/user';
 import {OrganisationUnit} from '../../../models/organisationUnit';
 import {DatabaseService} from '../../services/databas.service';
 import {SharingService} from '../../services/sharing.service';
+import {ExportAsConfig, ExportAsService} from 'ngx-export-as';
+import {ToastService} from '../../services/toast.service';
+import htmlToImage from 'html-to-image';
+import {File, IWriteOptions} from '@ionic-native/file/ngx';
+// import { saveAs } from 'file-saver';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import {Platform} from '@ionic/angular';
 
 @Component({
   selector: 'app-region',
@@ -16,6 +23,7 @@ export class RegionPage implements OnInit {
   dataStore: MalariaDataStoreModel;
   regions: any = [{}];
   districts: any = [{}];
+  viewShare: boolean = false;
   // loadingRegionData: boolean = true;
   selectedRegion: any = [];
   elementName: {} = {};
@@ -23,10 +31,6 @@ export class RegionPage implements OnInit {
   regionDataHeaders: any = [];
   regionDataByDistrictPeriod: string[][] = [];
   regionDataHeadersByPeriod: any = [];
-  regionInGray = 0;
-  regionInRed = 0;
-  regionInGreen = 0;
-  regionInYellow = 0;
   selectedRegionName: string;
   targetInfo: {} = {};
   orgUnitDataColors: string[][] = [[]];
@@ -34,8 +38,15 @@ export class RegionPage implements OnInit {
 
   user: User;
   organisationUnits: OrganisationUnit[];
-
-  constructor(private dataService: DataService, private databaseService: DatabaseService, private sharingService: SharingService) { }
+  htmlToImage: any = {};
+  // exportAsConfig: ExportAsConfig = {
+  //   type: 'png',
+  //   elementIdOrContent: 'score_table',
+  //   fileName: 'malariaImage'
+  // };
+  constructor(private dataService: DataService, private databaseService: DatabaseService, private platform: Platform,
+              private sharingService: SharingService, private exportAsService: ExportAsService,
+              public toast: ToastService, private file: File, private socialSharing: SocialSharing) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -54,7 +65,12 @@ export class RegionPage implements OnInit {
           this.getOrgUnitRegion(parseInt(this.dataStore.orgUnitLevel[0].region, 10));
         }
       });
-    }
+     }
+    this.platform.ready().then(() => {
+      console.log(this.file.dataDirectory);
+      this.file.writeFile(`${this.file.dataDirectory}/files`, 'score_table', 'text.txt');
+      this.file.createFile(`${this.file.dataDirectory}/files`, 'table2', true);
+    });
   }
   getColor(target: number, value: number, achieved: number, notInTrack: number): string {
     return this.dataService.getColor(target, value, achieved, notInTrack);
@@ -88,8 +104,11 @@ export class RegionPage implements OnInit {
   }
 
   getRegionDataByPeriodFilter() {
+    this.viewShare = true;
     this.regionDataByDistrict = [];
     this.regionDataHeaders = [];
+    this.regionDataByDistrictPeriod = [];
+    this.regionDataHeadersByPeriod = [];
     this.orgUnitDataColors.splice(0, this.orgUnitDataColors.length);
     this.periodDataColors.splice(0, this.periodDataColors.length);
     if (this.user.domain === 'server') {
@@ -114,6 +133,10 @@ export class RegionPage implements OnInit {
           this.getAnalyticsDataByPeriod(periodData.rows, periodData.headers);
           this.getAnalyticsDataByOrgUnit(orgUnitData.rows, orgUnitData.headers);
         }
+        // } else {
+        //   this.toast.presentToast('You are Offline please click on refresh button.');
+        //   this.clear();
+        // }
       });
     }
   }
@@ -121,10 +144,6 @@ export class RegionPage implements OnInit {
   getAnalyticsDataByOrgUnit(rows: any, headers: any) {
     this.regionDataByDistrict = [];
     this.regionDataHeaders = [];
-    this.regionInGreen = 0;
-    this.regionInGray = 0;
-    this.regionInYellow = 0;
-    this.regionInRed = 0;
     for (let i = 0; i < rows.length; i++) {
       const columns = rows[i];
       let count = 0;
@@ -206,10 +225,109 @@ export class RegionPage implements OnInit {
     component: IonicSelectableComponent,
     value: any
   }) {
-    console.log('redion:', event.value);
+    console.log('region:', event.value);
   }
-  shareTwitter() {
-    this.sharingService.share();
+  async share() {
+    let node = document.getElementById('score_table');
+    let nodeString = node.innerHTML;
+    nodeString = nodeString.replace('table-responsive data-mobile-responsive', '');
+    // node = document.createRange().createContextualFragment(nodeString);
+    const doc = new DOMParser().parseFromString(nodeString, 'text/html');
+    node = doc.body.querySelector('table');
+    console.log(nodeString);
+    console.log(doc);
+    console.log(node);
+    const options: IWriteOptions = { replace: true};
+    htmlToImage.toBlob(node).then(async (dataUrl) => {
+      this.htmlToImage = dataUrl;
+      await this.file.writeFile(`${this.file.dataDirectory}/files`, 'malariaSc_table.png', this.htmlToImage , options ).then(async result => {
+          await this.socialSharing.shareViaFacebook(null, `${this.file.dataDirectory}/files/malariaSc_table.png`, null)
+              .then(async o => {
+              }).catch(e => {});
+        });
+    });
   }
-  shareWhatsApp() {}
+  // async chargingImage(content: any) {
+  //   const options: IWriteOptions = { replace: true};
+  //   await this.file.writeFile(`${this.file.dataDirectory}/files`, 'malariaImage.png', content, options ).then(result => {
+  //   });
+  // }
+ async shareAll() {
+    const node = document.getElementById('score_table');
+    const option: IWriteOptions = { replace: true};
+    const options = {
+     message: 'share this message test',
+     subject: 'score card',
+     files: `${this.file.dataDirectory}/files/malariaSc_table.png`,
+     url: 'https://dhis2.jsi.com/dhis',
+     chooserTitle: null };
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'malariaSc_table.png', this.htmlToImage, option).then(async r => {
+            await this.socialSharing.shareWithOptions(options).then(rt => {
+            }).catch(e => {});
+           // await this.socialSharing.shareViaFacebook(null, `${this.file.dataDirectory}/files/malariaSc_table.png`, null)
+           //      .then(async o => {
+           //      }).catch(e => {});
+          });
+        });
+  }
+
+  shareViaFacebool() {
+    const node = document.getElementById('score_table');
+    const option: IWriteOptions = { replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'malariaSc_table.png', this.htmlToImage, option).then(async r => {
+            await this.socialSharing.shareViaFacebook(null, `${this.file.dataDirectory}/files/malariaSc_table.png`, null)
+                 .then(async o => {
+                 }).catch(e => {});
+          });
+        });
+  }
+
+  shareViaGmail() {
+    // const node = document.getElementById('score_table');
+    // const option: IWriteOptions = { replace: true};
+    // htmlToImage.toBlob(node)
+    //     .then(async (dataUrl) => {
+    //       this.htmlToImage = dataUrl;
+    //       await this.file.writeFile(`${this.file.dataDirectory}/files`, 'malariaSc_table.png', this.htmlToImage, option).then(async r => {
+    //         await this.socialSharing.shareViaEmail(null, null, `${this.file.dataDirectory}/files/malariaSc_table.png`, null)
+    //             .then(async o => {
+    //             }).catch(e => {});
+    //       });
+    //     });
+  }
+
+  shareViaWhatsapp() {
+    const node = document.getElementById('score_table');
+    const option: IWriteOptions = { replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'malariaSc_table.png', this.htmlToImage, option).then(async r => {
+            await this.socialSharing.shareViaWhatsApp(null, `${this.file.dataDirectory}/files/malariaSc_table.png`, null)
+                .then(async o => {
+                }).catch(e => {});
+          });
+        });
+  }
+
+  shareViaInstagram() {
+    const node = document.getElementById('score_table');
+    const option: IWriteOptions = { replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'malariaSc_table.png', this.htmlToImage, option).then(async r => {
+            await this.socialSharing.shareViaInstagram(null, `${this.file.dataDirectory}/files/malariaSc_table.png`)
+                .then(async o => {
+                }).catch(e => {});
+          });
+        });
+
+  }
 }

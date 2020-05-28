@@ -5,6 +5,8 @@ import {IonicSelectableComponent} from 'ionic-selectable';
 import {DatabaseService} from '../../services/databas.service';
 import {User} from '../../../models/user';
 import {OrganisationUnit} from '../../../models/organisationUnit';
+import {ExportAsService} from 'ngx-export-as';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-facility',
@@ -16,8 +18,6 @@ export class FacilityPage implements OnInit {
   facilities: any = [{}];
   selectedFacility: any = [];
   elementName: {} = {};
-  facilityInGray = 0; facilityInRed = 0;
-  facilityInGreen = 0; facilityInYellow = 0;
   facilityDataByCommunity: string[][] = [];
   facilityDataHeaders: any = [];
   facilityDataByChwPeriod: string[][] = [];
@@ -30,7 +30,8 @@ export class FacilityPage implements OnInit {
   user: User;
   organisationUnits: OrganisationUnit[];
 
-  constructor(private dataService: DataService, private databaseService: DatabaseService) { }
+  constructor(private dataService: DataService, private databaseService: DatabaseService,
+              public toast: ToastService) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -83,6 +84,8 @@ export class FacilityPage implements OnInit {
   getFacilityDataByPeriodFilter() {
     this.facilityDataByCommunity = [];
     this.facilityDataHeaders = [];
+    this.facilityDataByChwPeriod = [];
+    this.facilityDataHeadersByPeriod = [];
     this.orgUnitDataColors.splice(0, this.orgUnitDataColors.length);
     this.periodDataColors.splice(0, this.periodDataColors.length);
     if (this.user.domain === 'server') {
@@ -106,7 +109,7 @@ export class FacilityPage implements OnInit {
           const periodData = JSON.parse(result.rows.item(0).periodData);
           this.getAnalyticsDataByPeriod(periodData.rows, periodData.headers);
           this.getAnalyticsDataByOrgUnit(orgUnitData.rows, orgUnitData.headers);
-        }
+         }
       });
     }
   }
@@ -114,10 +117,6 @@ export class FacilityPage implements OnInit {
   getAnalyticsDataByOrgUnit(rows: any, headers: any) {
     this.facilityDataByCommunity = [];
     this.facilityDataHeaders = [];
-    this.facilityInGreen = 0;
-    this.facilityInGray = 0;
-    this.facilityInYellow = 0;
-    this.facilityInRed = 0;
     for (let i = 0; i < rows.length; i++) {
       const columns = rows[i];
       let count = 0;

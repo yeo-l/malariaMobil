@@ -14,7 +14,7 @@ import {IUser} from '../../../models/user';
 })
 export class LoginPage implements OnInit {
     loginData = {username: '', password: ''};
-    inputUrl: '';
+    inputUrl = 'https://dhis2.jsi.com/dhis';
     loading = false;
     submitted = false;
     returnUrl: string;
