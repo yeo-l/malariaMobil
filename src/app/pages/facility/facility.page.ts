@@ -5,8 +5,10 @@ import {IonicSelectableComponent} from 'ionic-selectable';
 import {DatabaseService} from '../../services/databas.service';
 import {User} from '../../../models/user';
 import {OrganisationUnit} from '../../../models/organisationUnit';
-import {ExportAsService} from 'ngx-export-as';
+import htmlToImage from 'html-to-image';
+import {File, IWriteOptions} from '@ionic-native/file/ngx';
 import {ToastService} from '../../services/toast.service';
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-facility',
@@ -26,12 +28,13 @@ export class FacilityPage implements OnInit {
   targetInfo: {} = {};
   orgUnitDataColors: string[][] = [[]];
   periodDataColors: string[][] = [[]];
-  chws: any = [{}];
   user: User;
   organisationUnits: OrganisationUnit[];
+  viewShare = false;
+  htmlToImage: any = {};
 
   constructor(private dataService: DataService, private databaseService: DatabaseService,
-              public toast: ToastService) { }
+              public toast: ToastService, private file: File, private socialSharing: SocialSharing) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -82,6 +85,7 @@ export class FacilityPage implements OnInit {
   }
 
   getFacilityDataByPeriodFilter() {
+    this.viewShare = true;
     this.facilityDataByCommunity = [];
     this.facilityDataHeaders = [];
     this.facilityDataByChwPeriod = [];
@@ -185,9 +189,11 @@ export class FacilityPage implements OnInit {
         this.getAnalyticsDataByPeriod(data.rows, data.headers);
         this.databaseService.loadAnalyticsData(this.user.url, this.selectedFacility.id).then( result => {
           if (result.rows.length > 0) {
-            this.databaseService.updateAnalyticsData(this.user.url, this.selectedFacility.id, JSON.stringify(filterPeriodData), JSON.stringify(data)).then();
+            this.databaseService.updateAnalyticsData(this.user.url, this.selectedFacility.id, JSON.stringify(filterPeriodData), JSON.stringify(data))
+                .then(() => {});
           } else {
-            this.databaseService.saveAnalyticsData(this.user.url, this.selectedFacility.id,  JSON.stringify(filterPeriodData), JSON.stringify(data)).then();
+            this.databaseService.saveAnalyticsData(this.user.url, this.selectedFacility.id,  JSON.stringify(filterPeriodData), JSON.stringify(data))
+                .then(() => {});
           }
         });
       });
@@ -285,5 +291,155 @@ export class FacilityPage implements OnInit {
     value: any
   }) {
     console.log('facility:', event.value);
+  }
+
+    shareViaTwitter() {
+      const node = document.getElementById('facility_table');
+      node.classList.remove('table-responsive');
+      node.classList.remove('data-mobile-responsive');
+      const options: IWriteOptions = { replace: true};
+      htmlToImage.toBlob(node).then(async (dataUrl) => {
+        this.htmlToImage = dataUrl;
+        await this.file.writeFile(`${this.file.dataDirectory}/files`, 'malariaSc_table.png', this.htmlToImage , options )
+            .then(async result => {
+              node.className += ' table-responsive data-mobile-responsive';
+              await this.socialSharing.shareViaTwitter(null, `${this.file.dataDirectory}/files/malariaSc_table.png`, null)
+                  .then(async o => {
+                  }).catch(e => {});
+            });
+      });
+    }
+
+  shareViaFacebook() {
+    const node = document.getElementById('facility_table');
+    node.classList.remove('table-responsive');
+    node.classList.remove('data-mobile-responsive');
+    const option: IWriteOptions = {replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'regionByDistrict_table.png', this.htmlToImage, option)
+              .then(async r => {
+                node.className += ' table-responsive data-mobile-responsive';
+                await this.socialSharing.shareViaFacebook(null, `${this.file.dataDirectory}/files/regionByDistrict_table.png`, null)
+                    .then(async o => {
+                    }).catch(e => {
+                    });
+              });
+        });
+  }
+
+  shareViaWhatsapp() {
+    const node = document.getElementById('facility_table');
+    node.classList.remove('table-responsive');
+    node.classList.remove('data-mobile-responsive');
+    const option: IWriteOptions = {replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'regionByDistrict_table.png', this.htmlToImage, option)
+              .then(async r => {
+                node.className += ' table-responsive data-mobile-responsive';
+                await this.socialSharing.shareViaWhatsApp(null, `${this.file.dataDirectory}/files/regionByDistrict_table.png`, null)
+                    .then(async o => {
+                    }).catch(e => {
+                    });
+              });
+        });
+  }
+
+  shareViaInstagram() {
+    const node = document.getElementById('facility_table');
+    node.classList.remove('table-responsive');
+    node.classList.remove('data-mobile-responsive');
+    const option: IWriteOptions = {replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'regionByDistrict_table.png', this.htmlToImage, option)
+              .then(async r => {
+                node.className += ' table-responsive data-mobile-responsive';
+                await this.socialSharing.shareViaInstagram(null, `${this.file.dataDirectory}/files/regionByDistrict_table.png`)
+                    .then(async o => {
+                    }).catch(e => {
+                    });
+              });
+        });
+  }
+
+  shareTwitterPeriod() {
+    const node = document.getElementById('facility_period');
+    node.classList.remove('table-responsive');
+    node.classList.remove('data-mobile-responsive');
+    const option: IWriteOptions = {replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'regionByPeriod_table.png', this.htmlToImage, option)
+              .then(async r => {
+                node.className += ' table-responsive data-mobile-responsive';
+                await this.socialSharing.shareViaTwitter(null, `${this.file.dataDirectory}/files/regionByPeriod_table.png`, null)
+                    .then(async o => {
+                    }).catch(e => {
+                    });
+              });
+        });
+  }
+
+  shareViaFacebookPeriod() {
+    const node = document.getElementById('facility_period');
+    node.classList.remove('table-responsive');
+    node.classList.remove('data-mobile-responsive');
+    const option: IWriteOptions = {replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'regionByPeriod_table.png', this.htmlToImage, option)
+              .then(async r => {
+                node.className += ' table-responsive data-mobile-responsive';
+                await this.socialSharing.shareViaFacebook(null, `${this.file.dataDirectory}/files/regionByPeriod_table.png`, null)
+                    .then(async o => {
+                    }).catch(e => {
+                    });
+              });
+        });
+  }
+
+  shareViaWhatsappPeriod() {
+    const node = document.getElementById('facility_period');
+    node.classList.remove('table-responsive');
+    node.classList.remove('data-mobile-responsive');
+    const option: IWriteOptions = {replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'regionByPeriod_table.png', this.htmlToImage, option)
+              .then(async r => {
+                node.className += ' table-responsive data-mobile-responsive';
+                await this.socialSharing.shareViaWhatsApp(null, `${this.file.dataDirectory}/files/regionByPeriod_table.png`, null)
+                    .then(async o => {
+                    }).catch(e => {
+                    });
+              });
+        });
+  }
+
+  shareViaInstagramPeriode() {
+    const node = document.getElementById('facility_period');
+    node.classList.remove('table-responsive');
+    node.classList.remove('data-mobile-responsive');
+    const option: IWriteOptions = {replace: true};
+    htmlToImage.toBlob(node)
+        .then(async (dataUrl) => {
+          this.htmlToImage = dataUrl;
+          await this.file.writeFile(`${this.file.dataDirectory}/files`, 'regionByPeriod_table.png', this.htmlToImage, option)
+              .then(async r => {
+                node.className += ' table-responsive data-mobile-responsive';
+                await this.socialSharing.shareViaInstagram(null, `${this.file.dataDirectory}/files/regionByPeriod_table.png`)
+                    .then(async o => {
+                    }).catch(e => {
+                    });
+              });
+        });
   }
 }

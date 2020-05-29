@@ -6,23 +6,18 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82600def-e771-4b43-86f7-be04171dbe94" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../src/assets/text.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+    <list default="true" id="9992c786-5c62-4ad3-ac7a-4a106abf2d8d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/capacitor-cordova-android-plugins/capacitor-cordova-android-plugins.iml" beforeDir="false" afterPath="$PROJECT_DIR$/capacitor-cordova-android-plugins/capacitor-cordova-android-plugins.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/pages/district/district.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/district/district.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/district/district.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/district/district.page.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/pages/login/login.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/login/login.page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/pages/login/login.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/login/login.page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/pages/login/login.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/login/login.page.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/region/region.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/region/region.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/region/region.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/region/region.page.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/services/sharing.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/services/sharing.service.ts" afterDir="false" />
@@ -51,18 +46,14 @@
       </state>
     </system>
   </component>
-  <component name="GenerateSignedApkSettings">
-    <option name="BUILD_TARGET_KEY" value="apk" />
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1cV50gtvZw4BJExLs6sCiCYocAK" />
+  <component name="ProjectId" id="1cXnvXlRQvrcrhJQyuG2BWkSlie" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="ApkExportedModule" value="app" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_API_25" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-27T20:19:47.300Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-28T16:43:31.793Z" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
@@ -143,11 +134,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="82600def-e771-4b43-86f7-be04171dbe94" name="Default Changelist" comment="" />
-      <created>1590600699147</created>
+      <changelist id="9992c786-5c62-4ad3-ac7a-4a106abf2d8d" name="Default Changelist" comment="" />
+      <created>1590684038122</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1590600699147</updated>
+      <updated>1590684038122</updated>
     </task>
     <servers />
   </component>

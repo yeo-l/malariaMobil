@@ -17,3 +17,11 @@ ion-content {
     margin-left: 130px;
   }
 }
+thead{
+  th:first-child{
+    width: 200px;
+  }
+}
+ion-icon {
+  font-size: 64px;
+}

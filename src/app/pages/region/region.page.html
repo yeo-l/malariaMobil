@@ -22,43 +22,33 @@
         </ion-col>
         <ion-col size-md="2" align="justify">
             <button class="btn btn-danger" (click)="getRegionDataByPeriodFilter()">view</button>
-<!--            <button class="btn btn-secondary" (click)="clear()">refresh</button>-->
+            <!--            <button class="btn btn-secondary" (click)="clear()">refresh</button>-->
         </ion-col>
     </ion-row>
 </ion-card>
 <ion-content>
-    <div class="card-header">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="card-title">Score card table of {{selectedRegionName}} region</div>
+        <div class="row align-content-center text-center" *ngIf="viewShare == true">
+            <div class="col-3">
+                <ion-icon size="large" color="primary" slot="icon-only" name="logo-twitter" (click)="share()"></ion-icon>
             </div>
+            <div class="col-3">
+                <ion-icon size="large"  color="primary" slot="icon-only" name="logo-facebook" (click)="shareViaFacebook()"></ion-icon>
+            </div>
+            <div class="col-3">
+                <ion-icon size="large" color="success" slot="icon-only" name="logo-whatsapp" (click)="shareViaWhatsapp()"></ion-icon>
+            </div>
+            <div class="col-3">
+                <ion-icon size="large" slot="icon-only" color="danger" name="logo-instagram" (click)="shareViaInstagram()"></ion-icon>
+            </div>
+        </div>
+    <div class="card">
+        <div class="card-header">
+               <h4>Score card table for {{selectedRegionName}} region by district</h4>
         </div>
     </div>
-    <div class="card-title" *ngIf="viewShare == true">
-        <div class="row">
-            <div class="col-md-1 col-sm">
-                    <ion-button (click)="share()">
-                        <ion-icon slot="icon-only" name="logo-twitter"></ion-icon>
-                    </ion-button>
-            </div>
-            <div class="col-md-1 col-sm">
-                    <ion-button (click)="shareViaFacebool()">
-                        <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
-                    </ion-button>
-            </div>
-            <div class="col-md-1 col-sm">
-                    <ion-button (click)="shareViaWhatsapp()">
-                        <ion-icon slot="icon-only" name="logo-whatsapp"></ion-icon>
-                    </ion-button>
-            </div><div class="col-md-1 col-sm">
-                <ion-button (click)="shareViaInstagram()">
-                    <ion-icon slot="icon-only" name="logo-instagram"></ion-icon>
-                </ion-button>
-        </div>
-        </div>
-    </div>
+
     <ion-row >
-        <table class="table table-bordered table-responsive data-mobile-responsive" id="score_table">
+        <table class="table table-bordered table-responsive data-mobile-responsive bg-white" id="score_table">
             <thead>
             <tr>
                 <th *ngFor="let header of regionDataHeaders">{{header}}</th>
@@ -72,23 +62,29 @@
             </tbody>
         </table>
     </ion-row>
+        <div class="row align-content-center text-center" *ngIf="viewShare == true">
+            <div class="col-3">
+                <ion-icon size="large" color="primary" slot="icon-only" name="logo-twitter" (click)="shareTwitterPeriod()"></ion-icon>
+            </div>
+            <div class="col-3">
+                <ion-icon size="large" color="primary"  slot="icon-only" name="logo-facebook" (click)="shareViaFacebookPeriod()"></ion-icon>
+            </div>
+            <div class="col-3">
+                <ion-icon size="large" color="success" slot="icon-only" name="logo-whatsapp" (click)="shareViaWhatsappPeriod()"></ion-icon>
+            </div>
+            <div class="col-3">
+                <ion-icon size="large" color="danger" slot="icon-only" name="logo-instagram" (click)="shareViaInstagramPeriode()"></ion-icon>
+            </div>
+        </div>
     <div class="card-header">
         <div class="row">
             <div class="col-md-1O">
-                <div class="card-title">Score card table of Region {{selectedRegionName}} over the last 12 months</div>
-            </div>
-            <div class="col-md-1" *ngIf="viewShare == true">
-                <ion-col size="3">
-                    <ion-button (click)="shareAll()">
-                        <ion-icon slot="icon-only" name="share"></ion-icon>
-                    </ion-button>
-                </ion-col>
+                <div class="card-title">Score card table for Region {{selectedRegionName}} over the last 12 months</div>
             </div>
         </div>
-
     </div>
     <ion-row>
-        <table class="table table-bordered table-responsive data-mobile-responsive">
+        <table class="table table-bordered table-responsive data-mobile-responsive bg-white" id="region_period">
             <thead>
             <tr>
                 <th *ngFor="let header of regionDataHeadersByPeriod">{{header}}</th>
