@@ -6,21 +6,56 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9992c786-5c62-4ad3-ac7a-4a106abf2d8d" name="Default Changelist" comment="">
+    <list default="true" id="161a981b-932d-4daa-8b9e-7ce159d043de" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.component.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.component.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/explore-container/explore-container.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-land-hdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-land-hdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-land-mdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-land-mdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-land-xhdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-land-xhdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-land-xxhdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-land-xxhdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-land-xxxhdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-land-xxxhdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-port-hdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-port-hdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-port-mdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-port-mdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-port-xhdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-port-xhdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-port-xxhdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-port-xxhdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-port-xxxhdpi/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-port-xxxhdpi/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/home/home-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/home/home-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/index/index-routing.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/index/index.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/index/index.page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/index/index.page.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/index/index.page.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/index/index.page.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/district/district.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/district/district.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/district/district.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/district/district.page.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/facility/facility.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/pages/login/login.page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/login/login.page.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/app/pages/login/login.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/login/login.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/region/region.page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/region/region.page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/pages/region/region.page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/pages/region/region.page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/services/sharing.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/services/sharing.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/icon/ionicfavicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/images/dhis2_logo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/images/rounded-color.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/assets/text.txt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,15 +81,27 @@
       </state>
     </system>
   </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="C:\Users\YEO\Desktop\keystorefile.jks" />
+    <option name="KEY_ALIAS" value="key0" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+    <option name="BUILD_TARGET_KEY" value="apk" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1cXnvXlRQvrcrhJQyuG2BWkSlie" />
+  <component name="ProjectId" id="1clOc5a2O4Sw6cLDG3oBTVgXjMG" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="ApkExportedModule" value="app" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_API_25" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-28T16:43:31.793Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-06-04T15:32:00.277Z" />
+    <property name="ExportApk.ApkPath" value="D:\PROJECTS_JSI\malariaMobil\android\app" />
+    <property name="ExportApk.BuildVariants" value="release" />
+    <property name="ExportApk.SignV1" value="true" />
+    <property name="ExportApk.SignV2" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/keystorefile.jks" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RunDashboard">
@@ -134,11 +181,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="9992c786-5c62-4ad3-ac7a-4a106abf2d8d" name="Default Changelist" comment="" />
-      <created>1590684038122</created>
+      <changelist id="161a981b-932d-4daa-8b9e-7ce159d043de" name="Default Changelist" comment="" />
+      <created>1591099790522</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1590684038122</updated>
+      <updated>1591099790522</updated>
     </task>
     <servers />
   </component>

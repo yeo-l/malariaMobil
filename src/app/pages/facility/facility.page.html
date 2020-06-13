@@ -1,98 +1,134 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>facility</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-title>facility</ion-title>
+    </ion-toolbar>
 </ion-header>
 <ion-card>
-  <ion-row>
-    <ion-col size-md="10">
-      <!--      <select [(ngModel)]="selectedFacility" class="form-control">-->
-      <!--        <option selected>Please selected Facility</option>-->
-      <!--        <option [value]="ouFacility.id" *ngFor="let ouFacility of facilities">{{ouFacility.name}}</option>-->
-      <!--      </select>-->
-      <ionic-selectable
-              [(ngModel)]="selectedFacility"
-              itemValueField="id"
-              itemTextField="name"
-              [items]="facilities"
-              class=" col-md-10"
-              [canSearch]="true"
-              (onChange)="facChange($event)">
-      </ionic-selectable>
-    </ion-col>
-    <ion-col size-md="1" align="justify">
-      <button class="btn btn-danger" (click)="getFacilityDataByPeriodFilter()">view</button>
-    </ion-col>
-  </ion-row>
+    <ion-row>
+        <ion-col size-md="10">
+            <!--      <select [(ngModel)]="selectedFacility" class="form-control">-->
+            <!--        <option selected>Please selected Facility</option>-->
+            <!--        <option [value]="ouFacility.id" *ngFor="let ouFacility of facilities">{{ouFacility.name}}</option>-->
+            <!--      </select>-->
+            <ionic-selectable
+                    [(ngModel)]="selectedFacility"
+                    itemValueField="id"
+                    itemTextField="name"
+                    [items]="facilities"
+                    class=" col-md-10"
+                    placeholder="Please Select facility"
+                    [canSearch]="true"
+                    (onChange)="facChange($event)">
+            </ionic-selectable>
+        </ion-col>
+        <ion-col size-md="1" *ngIf="loadingRegionData">
+            <ion-spinner name="bubbles"></ion-spinner>
+        </ion-col>
+        <ion-col size-md="1" align="justify">
+            <button class="btn btn-danger" (click)="getFacilityDataByPeriodFilter()">view</button>
+        </ion-col>
+    </ion-row>
 </ion-card>
 <ion-content>
-    <div class="row align-content-center text-center" *ngIf="viewShare == true">
-        <div class="col-3">
-            <ion-icon size="large" color="primary" slot="icon-only" name="logo-twitter" (click)="shareViaTwitter()"></ion-icon>
+    <ion-card-content class="ion-margin">
+        <div class="row align-content-center text-center" *ngIf="viewShare == true">
+            <ion-fab horizontal="start" vertical="center" slot="fixed" size="small">
+                <ion-fab-button color="light">
+                    <ion-icon name="share"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-list side="end">
+                    <ion-fab-button color="primary" (click)="shareViaTwitter()">
+                        <ion-icon name="logo-twitter"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="primary" (click)="shareViaFacebook()">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="success" (click)="shareViaWhatsapp()">
+                        <ion-icon  name="logo-whatsapp"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="danger" (click)="shareViaInstagram()">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab-list>
+            </ion-fab>
         </div>
-        <div class="col-3">
-            <ion-icon size="large"  color="primary" slot="icon-only" name="logo-facebook" (click)="shareViaFacebook()"></ion-icon>
-        </div>
-        <div class="col-3">
-            <ion-icon size="large" color="success" slot="icon-only" name="logo-whatsapp" (click)="shareViaWhatsapp()"></ion-icon>
-        </div>
-        <div class="col-3">
-            <ion-icon size="large" slot="icon-only" color="danger" name="logo-instagram" (click)="shareViaInstagram()"></ion-icon>
-        </div>
-    </div>
+    </ion-card-content>
+
     <div class="card">
         <div class="card-header">
-            <h4>Score card table for {{selectedFacilityName}} Facility</h4>
+            <h5>Score card table for {{selectedFacilityName}} Facility</h5>
         </div>
     </div>
-  <ion-row>
-    <table class="table table-bordered table-responsive" id="facility_table">
-      <thead>
-      <tr>
-        <th *ngFor="let headerF of facilityDataHeaders">{{headerF}}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let rowFD of facilityDataByCommunity; let i = index">
-        <td class="{{orgUnitDataColors[i][j]}} align-middle" *ngFor="let columnFp of rowFD; let j = index">{{columnFp}}</td>
-<!--        <td class="{{i == 0 ? '' : ( columnFp == '' ? 'bg-gray': (columnFp >= 70 ? 'bg-green': (columnFp <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnFp of rowFD; let i = index">{{columnFp}}</td>-->
-      </tr>
-      </tbody>
-    </table>
-  </ion-row>
-    <div class="row align-content-center text-center" *ngIf="viewShare == true">
-        <div class="col-3">
-            <ion-icon size="large" color="primary" slot="icon-only" name="logo-twitter" (click)="shareTwitterPeriod()"></ion-icon>
+    <ion-row>
+        <table class="table table-bordered table-responsive" id="facility_table">
+            <thead>
+            <tr>
+                <th *ngFor="let headerF of facilityDataHeaders">{{headerF}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let rowFD of facilityDataByCommunity; let i = index">
+                <td class="{{orgUnitDataColors[i][j]}} align-middle" *ngFor="let columnFp of rowFD; let j = index">{{columnFp}}</td>
+                <!--        <td class="{{i == 0 ? '' : ( columnFp == '' ? 'bg-gray': (columnFp >= 70 ? 'bg-green': (columnFp <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnFp of rowFD; let i = index">{{columnFp}}</td>-->
+            </tr>
+            </tbody>
+        </table>
+    </ion-row>
+    <ion-card-content class="ion-margin">
+        <div class="row align-content-center text-center" *ngIf="viewShare == true">
+<!--            <div class="col-3">-->
+<!--                <ion-icon size="large" color="primary" slot="icon-only" name="logo-twitter" (click)="shareTwitterPeriod()"></ion-icon>-->
+<!--            </div>-->
+<!--            <div class="col-3">-->
+<!--                <ion-icon size="large" color="primary"  slot="icon-only" name="logo-facebook" (click)="shareViaFacebookPeriod()"></ion-icon>-->
+<!--            </div>-->
+<!--            <div class="col-3">-->
+<!--                <ion-icon size="large" color="success" slot="icon-only" name="logo-whatsapp" (click)="shareViaWhatsappPeriod()"></ion-icon>-->
+<!--            </div>-->
+<!--            <div class="col-3">-->
+<!--                <ion-icon size="large" color="danger" slot="icon-only" name="logo-instagram" (click)="shareViaInstagramPeriode()"></ion-icon>-->
+<!--            </div>-->
+            <ion-fab horizontal="start" vertical="center" slot="fixed" size="small">
+                <ion-fab-button color="light">
+                    <ion-icon name="share"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-list side="end">
+                    <ion-fab-button color="primary" (click)="shareTwitterPeriod()">
+                        <ion-icon name="logo-twitter"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="primary" (click)="shareViaFacebookPeriod()">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="success" (click)="shareViaWhatsappPeriod()">
+                        <ion-icon  name="logo-whatsapp"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button color="danger" (click)="shareViaInstagramPeriode()">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab-list>
+            </ion-fab>
         </div>
-        <div class="col-3">
-            <ion-icon size="large" color="primary"  slot="icon-only" name="logo-facebook" (click)="shareViaFacebookPeriod()"></ion-icon>
-        </div>
-        <div class="col-3">
-            <ion-icon size="large" color="success" slot="icon-only" name="logo-whatsapp" (click)="shareViaWhatsappPeriod()"></ion-icon>
-        </div>
-        <div class="col-3">
-            <ion-icon size="large" color="danger" slot="icon-only" name="logo-instagram" (click)="shareViaInstagramPeriode()"></ion-icon>
-        </div>
-    </div>
+    </ion-card-content>
+
     <div class="card">
         <div class="card-header">
-            <div class="card-title">Score card table for Facility {{selectedFacilityName}} over the last 12 months</div>
+            <h5>Score card table for Facility {{selectedFacilityName}} over the last 12 months</h5>
         </div>
     </div>
 
-  <ion-row>
-    <table class="table table-bordered table-responsive" id="facility_period">
-      <thead>
-      <tr>
-        <th *ngFor="let headerFP of facilityDataHeadersByPeriod">{{headerFP}}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let rowFP of facilityDataByChwPeriod; let i = index">
-        <td class="{{periodDataColors[i][j]}} align-middle" *ngFor="let columnFpe of rowFP; let j = index">{{columnFpe}}</td>
-<!--        <td class="{{i == 0 ? '' : ( columnFpe == '' ? 'bg-gray': (columnFpe >= 70 ? 'bg-green': (columnFpe <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnFpe of rowFP; let i = index">{{columnFpe}}</td>-->
-      </tr>
-      </tbody>
-    </table>
-  </ion-row>
+    <ion-row>
+        <table class="table table-bordered table-responsive" id="facility_period">
+            <thead>
+            <tr>
+                <th *ngFor="let headerFP of facilityDataHeadersByPeriod">{{headerFP}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let rowFP of facilityDataByChwPeriod; let i = index">
+                <td class="{{periodDataColors[i][j]}} align-middle" *ngFor="let columnFpe of rowFP; let j = index">{{columnFpe}}</td>
+                <!--        <td class="{{i == 0 ? '' : ( columnFpe == '' ? 'bg-gray': (columnFpe >= 70 ? 'bg-green': (columnFpe <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnFpe of rowFP; let i = index">{{columnFpe}}</td>-->
+            </tr>
+            </tbody>
+        </table>
+    </ion-row>
 </ion-content>

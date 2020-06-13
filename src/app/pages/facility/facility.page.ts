@@ -32,6 +32,7 @@ export class FacilityPage implements OnInit {
   organisationUnits: OrganisationUnit[];
   viewShare = false;
   htmlToImage: any = {};
+  loadingRegionData: boolean = true;
 
   constructor(private dataService: DataService, private databaseService: DatabaseService,
               public toast: ToastService, private file: File, private socialSharing: SocialSharing) { }
@@ -57,6 +58,7 @@ export class FacilityPage implements OnInit {
   }
 
   getOrgUnitFacility(level: number) {
+    this.loadingRegionData = false;
     this.databaseService.loadOrganisationUnit(this.user.url).then( result => {
       if (result.rows.length > 0) {
         this.organisationUnits = JSON.parse(result.rows.item(0).orgUnitData).organisationUnits;
@@ -199,93 +201,7 @@ export class FacilityPage implements OnInit {
       });
     }
   }
-  
-  // getFacilityDataByPeriodFilter() {
-  //   const dx = this.getDimensionDx();
-  //   const levelF: string = this.dataStore.orgUnitLevel[0].chw;
-  //   if (dx !== null) {
-  //     this.dataService.getDataByPeriodFilter(this.selectedFacility.id, dx, levelF).subscribe( (data: any) => {
-  //       const rows = data.rows;
-  //       const headers = data.headers;
-  //       this.facilityDataByCommunity = [];
-  //       this.facilityDataHeaders = [];
-  //       this.facilityInGreen = 0;
-  //       this.facilityInGray = 0;
-  //       this.facilityInYellow = 0;
-  //       this.facilityInRed   = 0;
-  //       for (let i = 0; i < rows.length; i++) {
-  //         const columns = rows[i];
-  //         let count = 0;
-  //         const columnData: string[] = [];
-  //         for (let j = 0; j < columns.length; j++) {
-  //           if (headers[j].column === 'dataid') {
-  //             columnData[count] = this.elementName[columns[j]];
-  //             this.facilityDataHeaders[count] = 'Indicators';
-  //             count++;
-  //           } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
-  //             columnData[count] = columns[j];
-  //             this.facilityDataHeaders[count] = headers[j].column;
-  //             count ++;
-  //             if (parseFloat(columns[j]) >= 70) {
-  //               this.facilityInGreen ++;
-  //             }
-  //             if (parseFloat(columns[j]) < 40) {
-  //               this.facilityInRed ++;
-  //             }
-  //             if (isNaN(parseFloat(columns[j]))) {
-  //               this.facilityInGray ++;
-  //             }
-  //             if (parseFloat(columns[j]) < 70 && parseFloat(columns[j]) >= 40) {
-  //               this.facilityInYellow ++;
-  //             }
-  //           }
-  //         }
-  //         this.facilityDataByCommunity.push(columnData);
-  //       }
-  //     });
-  //     this.getFacilityDataByOrgUnitFilter();
-  //    // this.getDistrictDataByOrgUnitFilter();
-  //     this.facilities.forEach(facility => {
-  //       if (facility.id === this.selectedFacility.id) {
-  //         this.selectedFacilityName = facility.name;
-  //       }
-  //     });
-  //   }
-  // }
-  // getFacilityDataByOrgUnitFilter() {
-  //   const dx = this.getDimensionDx();
-  //   if (dx !== null) {
-  //     this.dataService.getDataByOrgUnitFilter(this.selectedFacility.id, dx).subscribe((data: any) => {
-  //       const rows = data.rows;
-  //       const headers = data.headers;
-  //       this.facilityDataByChwPeriod = [];
-  //       this.facilityDataHeadersByPeriod = [];
-  //       for (let i = 0; i < rows.length; i++) {
-  //         const columns = rows[i];
-  //         let count = 0;
-  //         const columnData: string[] = [];
-  //         for (let j = 0; j < columns.length; j++) {
-  //           if (headers[j].column === 'dataid') {
-  //             columnData[count] = this.elementName[columns[j]];
-  //             this.facilityDataHeadersByPeriod[count] = 'Indicators';
-  //             count++;
-  //           } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
-  //             columnData[count] = columns[j];
-  //             this.facilityDataHeadersByPeriod[count] = headers[j].column;
-  //             count++;
-  //           }
-  //         }
-  //         this.facilityDataByChwPeriod.push(columnData);
-  //       }
-  //     });
-  //   }
-  // }
-  // getOrgUnitChw() {
-  //   const params: string[] = ['fields=id,name&filter=level:eq:' + this.dataStore.orgUnitLevel[0].facility];
-  //   this.dataService.loadOrganisationUnits(params).subscribe( (chwData: any) => {
-  //     this.chws = chwData.organisationUnits;
-  //   });
-  // }
+
   facChange(event: {
     component: IonicSelectableComponent,
     value: any
@@ -335,6 +251,7 @@ export class FacilityPage implements OnInit {
     node.classList.remove('data-mobile-responsive');
     const option: IWriteOptions = {replace: true};
     htmlToImage.toBlob(node)
+
         .then(async (dataUrl) => {
           this.htmlToImage = dataUrl;
           await this.file.writeFile(`${this.file.dataDirectory}/files`, 'regionByDistrict_table.png', this.htmlToImage, option)

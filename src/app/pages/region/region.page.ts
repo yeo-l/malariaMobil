@@ -5,13 +5,10 @@ import {IonicSelectableComponent} from 'ionic-selectable';
 import {User} from '../../../models/user';
 import {OrganisationUnit} from '../../../models/organisationUnit';
 import {DatabaseService} from '../../services/databas.service';
-import {SharingService} from '../../services/sharing.service';
-import {ExportAsConfig, ExportAsService} from 'ngx-export-as';
 import {ToastService} from '../../services/toast.service';
 import htmlToImage from 'html-to-image';
 import {File, IWriteOptions} from '@ionic-native/file/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import {Platform} from '@ionic/angular';
 
 @Component({
   selector: 'app-region',
@@ -23,7 +20,7 @@ export class RegionPage implements OnInit {
   regions: any = [{}];
   districts: any = [{}];
   viewShare = false;
-  // loadingRegionData: boolean = true;
+  loadingRegionData: boolean = true;
   selectedRegion: any = [];
   elementName: {} = {};
   regionDataByDistrict: string[][] = [];
@@ -34,17 +31,9 @@ export class RegionPage implements OnInit {
   targetInfo: {} = {};
   orgUnitDataColors: string[][] = [[]];
   periodDataColors: string[][] = [[]];
-
   user: User;
   organisationUnits: OrganisationUnit[];
   htmlToImage: any = {};
-  idTable = 'score_table';
-  idPeriodTable = 'region_period';
-  // exportAsConfig: ExportAsConfig = {
-  //   type: 'png',
-  //   elementIdOrContent: 'score_table',
-  //   fileName: 'malariaImage'
-  // };
   constructor(private dataService: DataService, private databaseService: DatabaseService,
               public toast: ToastService, private file: File, private socialSharing: SocialSharing) { }
 
@@ -66,11 +55,6 @@ export class RegionPage implements OnInit {
         }
       });
      }
-    // this.platform.ready().then(() => {
-    //   console.log(this.file.dataDirectory);
-    //   this.file.writeFile(`${this.file.dataDirectory}/files`, 'score_table', 'text.txt');
-    //   this.file.createFile(`${this.file.dataDirectory}/files`, 'table2', true);
-    // });
   }
   getColor(target: number, value: number, achieved: number, notInTrack: number): string {
     return this.dataService.getColor(target, value, achieved, notInTrack);
@@ -81,6 +65,7 @@ export class RegionPage implements OnInit {
   }
 
   getOrgUnitRegion(level: number) {
+    this.loadingRegionData = false;
     this.databaseService.loadOrganisationUnit(this.user.url).then( result => {
       if (result.rows.length > 0) {
         this.organisationUnits = JSON.parse(result.rows.item(0).orgUnitData).organisationUnits;
@@ -133,10 +118,6 @@ export class RegionPage implements OnInit {
           this.getAnalyticsDataByPeriod(periodData.rows, periodData.headers);
           this.getAnalyticsDataByOrgUnit(orgUnitData.rows, orgUnitData.headers);
         }
-        // } else {
-        //   this.toast.presentToast('You are Offline please click on refresh button.');
-        //   this.clear();
-        // }
       });
     }
   }
@@ -212,9 +193,11 @@ export class RegionPage implements OnInit {
         this.getAnalyticsDataByPeriod(data.rows, data.headers);
         this.databaseService.loadAnalyticsData(this.user.url, this.selectedRegion.id).then( result => {
           if (result.rows.length > 0) {
-            this.databaseService.updateAnalyticsData(this.user.url, this.selectedRegion.id, JSON.stringify(filterPeriodData), JSON.stringify(data)).then();
+            this.databaseService.updateAnalyticsData(this.user.url, this.selectedRegion.id, JSON.stringify(filterPeriodData), JSON.stringify(data))
+                .then();
         } else {
-            this.databaseService.saveAnalyticsData(this.user.url, this.selectedRegion.id,  JSON.stringify(filterPeriodData), JSON.stringify(data)).then();
+            this.databaseService.saveAnalyticsData(this.user.url, this.selectedRegion.id,  JSON.stringify(filterPeriodData), JSON.stringify(data))
+                .then();
           }
         });
       });

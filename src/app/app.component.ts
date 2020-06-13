@@ -29,12 +29,10 @@ export class AppComponent {
           this.status = 'You are Online';
           this.updateLocalStorage('server');
           this.connexionColor = 'isConnected';
-          console.log('color Online =' + this.connexionColor);
         } else {
           this.status = 'You are Offline';
           this.updateLocalStorage('local');
           this.connexionColor = 'isNotConnected';
-          console.log('color Offline =' + this.connexionColor);
         }
         this.toast.presentToast(this.status);
     });
@@ -56,6 +54,5 @@ export class AppComponent {
     }
     this.user.domain = domain;
     localStorage.setItem('user', JSON.stringify(this.user));
-    console.log('doamin :::: +' + domain);
   }
 }

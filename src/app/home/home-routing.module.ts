@@ -7,6 +7,11 @@ const routes: Routes = [
     path: '',
     component: HomePage,
     children: [
+      // {
+      //   path: '',
+      //   loadChildren: () =>
+      //       import('../pages/login/login.module').then(m => m.LoginPageModule)
+      // },
       {
         path: '',
         loadChildren: () =>

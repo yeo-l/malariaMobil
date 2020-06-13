@@ -32,6 +32,7 @@ export class DistrictPage implements OnInit {
   organisationUnits: OrganisationUnit[];
   viewShare = false;
   htmlToImage: any = {};
+  loadingRegionData: boolean = true;
 
   constructor(private dataService: DataService, private databaseService: DatabaseService,
               public toast: ToastService, private file: File, private socialSharing: SocialSharing) { }
@@ -65,6 +66,7 @@ export class DistrictPage implements OnInit {
   }
 
   getOrgUnitDistrict(level: number) {
+    this.loadingRegionData = false;
     this.databaseService.loadOrganisationUnit(this.user.url).then( result => {
       if (result.rows.length > 0) {
         this.organisationUnits = JSON.parse(result.rows.item(0).orgUnitData).organisationUnits;
@@ -200,87 +202,6 @@ export class DistrictPage implements OnInit {
       });
     }
   }
-
-  // getDistrictDataByPeriodFilter() {
-  //   const dx = this.getDimensionDx();
-  //   const levelD: string = this.dataStore.orgUnitLevel[0].facility;
-  //   if (dx !== null) {
-  //     this.dataSeries.getDataByPeriodFilter(this.selectedDistrict.id, dx, levelD).subscribe((data: any) => {
-  //       const rows = data.rows;
-  //       const headers = data.headers;
-  //       this.districtDataByFacility = [];
-  //       this.districtDataHeaders = [];
-  //       this.districtInGreen = 0;
-  //       this.districtInGray = 0;
-  //       this.districtInYellow = 0;
-  //       this.districtInRed = 0;
-  //       for (let i = 0; i < rows.length; i++) {
-  //         const columns = rows[i];
-  //         let count = 0;
-  //         const columnData: string[] = [];
-  //         for (let j = 0; j < columns.length; j++) {
-  //           if (headers[j].column === 'dataid') {
-  //             columnData[count] = this.elementName[columns[j]];
-  //             this.districtDataHeaders[count] = 'Indicators';
-  //             count++;
-  //           } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
-  //             columnData[count] = columns[j];
-  //             this.districtDataHeaders[count] = headers[j].column;
-  //             count ++;
-  //             if (parseFloat(columns[j]) >= 70) {
-  //               this.districtInGreen ++;
-  //             }
-  //             if (parseFloat(columns[j]) < 40) {
-  //               this.districtInRed ++;
-  //             }
-  //             if (isNaN(parseFloat(columns[j]))) {
-  //               this.districtInGray ++;
-  //             }
-  //             if (parseFloat(columns[j]) < 70 && parseFloat(columns[j]) >= 40) {
-  //               this.districtInYellow ++;
-  //             }
-  //           }
-  //         }
-  //         this.districtDataByFacility.push(columnData);
-  //       }
-  //     });
-  //   }
-  //   this.getDistrictDataByOrgUnitFilter();
-  //   this.districts.forEach(district => {
-  //     if (district.id === this.selectedDistrict.id) {
-  //       this.selectedDistrictName = district.name;
-  //     }
-  //   });
-  // }
-  // getDistrictDataByOrgUnitFilter() {
-  //   const dx = this.getDimensionDx();
-  //   if (dx !== null) {
-  //     this.dataSeries.getDataByOrgUnitFilter(this.selectedDistrict.id, dx).subscribe((data: any) => {
-  //       const rows = data.rows;
-  //       const headers = data.headers;
-  //       this.districtDataByDistrictPeriod = [];
-  //       this.districtDataHeadersByPeriod = [];
-  //       for (let i = 0; i < rows.length; i++) {
-  //         const columns = rows[i];
-  //         let count = 0;
-  //         const columnData: string[] = [];
-  //         for (let j = 0; j < columns.length; j++) {
-  //           if (headers[j].column === 'dataid') {
-  //             columnData[count] = this.elementName[columns[j]];
-  //             this.districtDataHeadersByPeriod[count] = 'Indicators';
-  //             count++;
-  //           } else if (headers[j].column !== 'datacode' && headers[j].column !== 'datadescription' && headers[j].column !== 'dataname') {
-  //             columnData[count] = columns[j];
-  //             this.districtDataHeadersByPeriod[count] = headers[j].column;
-  //             count++;
-  //           }
-  //         }
-  //         this.districtDataByDistrictPeriod.push(columnData);
-  //       }
-  //     });
-  //   }
-  // }
-
 
   disChange(event: {
     component: IonicSelectableComponent,

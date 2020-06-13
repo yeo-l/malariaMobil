@@ -6,78 +6,98 @@
 <ion-card>
   <ion-row>
     <ion-col size-md="10">
-<!--      <select [(ngModel)]="selectedDistrict" class="form-control">-->
-<!--        <option>Please selected District</option>-->
-<!--        <option [value]="ouDistrict.id" *ngFor="let ouDistrict of districts">{{ouDistrict.name}}</option>-->
-<!--      </select>-->
       <ionic-selectable
               [(ngModel)]="selectedDistrict"
               itemValueField="id"
               itemTextField="name"
               [items]="districts"
               class=" col-md-10"
+              placeholder="Please Select district"
               [canSearch]="true"
               (onChange)="disChange($event)">
       </ionic-selectable>
     </ion-col>
-    <ion-col size-md="2" align="justify">
+    <ion-col size-md="1" *ngIf="loadingRegionData">
+      <ion-spinner name="bubbles"></ion-spinner>
+    </ion-col>
+    <ion-col size-md="1" align="justify">
       <button class="btn btn-danger" (click)="getDistrictDataByPeriodFilter()">view</button>
     </ion-col>
   </ion-row>
 </ion-card>
 <ion-content>
-  <div class="row align-content-center text-center" *ngIf="viewShare == true">
-    <div class="col-3">
-      <ion-icon size="large" color="primary" slot="icon-only" name="logo-twitter" (click)="shareViaTwitter()"></ion-icon>
+  <ion-card-content class="ion-margin">
+    <div class="row align-content-center text-center" *ngIf="viewShare == true">
+      <ion-fab horizontal="start" vertical="center" slot="fixed" size="small">
+        <ion-fab-button color="light">
+          <ion-icon name="share"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="end">
+          <ion-fab-button color="primary" (click)="shareViaTwitter()">
+            <ion-icon name="logo-twitter"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button color="primary" (click)="shareViaFacebook()">
+            <ion-icon name="logo-facebook"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button color="success" (click)="shareViaWhatsapp()">
+            <ion-icon  name="logo-whatsapp"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button color="danger" (click)="shareViaInstagram()">
+            <ion-icon name="logo-instagram"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
     </div>
-    <div class="col-3">
-      <ion-icon size="large"  color="primary" slot="icon-only" name="logo-facebook" (click)="shareViaFacebook()"></ion-icon>
-    </div>
-    <div class="col-3">
-      <ion-icon size="large" color="success" slot="icon-only" name="logo-whatsapp" (click)="shareViaWhatsapp()"></ion-icon>
-    </div>
-    <div class="col-3">
-      <ion-icon size="large" slot="icon-only" color="danger" name="logo-instagram" (click)="shareViaInstagram()"></ion-icon>
-    </div>
-  </div>
+  </ion-card-content>
+
   <div class="card">
     <div class="card-header">
-      <div class="card-title">Score card table for {{selectedDistrictName}} District</div>
+      <h5>Score card table for {{selectedDistrictName}} District</h5>
     </div>
   </div>
 
   <ion-row>
     <table class="table table-bordered table-responsive" id="district_table">
       <thead>
-        <tr>
-          <th *ngFor="let headerD of districtDataHeaders">{{headerD}}</th>
-        </tr>
+      <tr>
+        <th *ngFor="let headerD of districtDataHeaders">{{headerD}}</th>
+      </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let rowDf of districtDataByFacility; let i = index">
-          <td class="{{orgUnitDataColors[i][j]}} align-middle" *ngFor="let columnDf of rowDf; let j = index">{{columnDf}}</td>
-<!--          <td class="{{i == 0 ? '' : ( columnDf == '' ? 'bg-gray': (columnDf >= 70 ? 'bg-green': (columnDf <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDf of rowDf; let i = index">{{columnDf}}</td>-->
-        </tr>
+      <tr *ngFor="let rowDf of districtDataByFacility; let i = index">
+        <td class="{{orgUnitDataColors[i][j]}} align-middle" *ngFor="let columnDf of rowDf; let j = index">{{columnDf}}</td>
+        <!--          <td class="{{i == 0 ? '' : ( columnDf == '' ? 'bg-gray': (columnDf >= 70 ? 'bg-green': (columnDf <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDf of rowDf; let i = index">{{columnDf}}</td>-->
+      </tr>
       </tbody>
     </table>
   </ion-row>
-  <div class="row align-content-center text-center" *ngIf="viewShare == true">
-    <div class="col-3">
-      <ion-icon size="large" color="primary" slot="icon-only" name="logo-twitter" (click)="shareTwitterPeriod()"></ion-icon>
+  <ion-card-content class="ion-margin">
+    <div class="row align-content-center text-center" *ngIf="viewShare == true">
+      <ion-fab horizontal="start" vertical="center" slot="fixed" size="small">
+        <ion-fab-button color="light">
+          <ion-icon name="share"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="end">
+          <ion-fab-button color="primary" (click)="shareTwitterPeriod()">
+            <ion-icon name="logo-twitter"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button color="primary" (click)="shareViaFacebookPeriod()">
+            <ion-icon name="logo-facebook"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button color="success" (click)="shareViaWhatsappPeriod()">
+            <ion-icon  name="logo-whatsapp"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button color="danger" (click)="shareViaInstagramPeriode()">
+            <ion-icon name="logo-instagram"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
     </div>
-    <div class="col-3">
-      <ion-icon size="large" color="primary"  slot="icon-only" name="logo-facebook" (click)="shareViaFacebookPeriod()"></ion-icon>
-    </div>
-    <div class="col-3">
-      <ion-icon size="large" color="success" slot="icon-only" name="logo-whatsapp" (click)="shareViaWhatsappPeriod()"></ion-icon>
-    </div>
-    <div class="col-3">
-      <ion-icon size="large" color="danger" slot="icon-only" name="logo-instagram" (click)="shareViaInstagramPeriode()"></ion-icon>
-    </div>
-  </div>
+  </ion-card-content>
+
   <div class="card">
     <div class="card-header">
-      <div class="card-title">Score card table for District {{selectedDistrictName}} over the last 12 months</div>
+      <h5 class="card-title">Score card table for District {{selectedDistrictName}} over the last 12 months</h5>
     </div>
   </div>
 
@@ -91,7 +111,7 @@
       <tbody>
       <tr *ngFor="let rowDp of districtDataByDistrictPeriod; let i = index">
         <td class="{{periodDataColors[i][j]}} align-middle" *ngFor="let columnDp of rowDp; let j = index">{{columnDp}}</td>
-<!--        <td class="{{i == 0 ? '' : ( columnDp == '' ? 'bg-gray': (columnDp >= 70 ? 'bg-green': (columnDp <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDp of rowDp; let i = index">{{columnDp}}</td>-->
+        <!--        <td class="{{i == 0 ? '' : ( columnDp == '' ? 'bg-gray': (columnDp >= 70 ? 'bg-green': (columnDp <= 39 ? 'bg-red': 'bg-yellow')))}} align-middle" *ngFor="let columnDp of rowDp; let i = index">{{columnDp}}</td>-->
       </tr>
       </tbody>
     </table>
