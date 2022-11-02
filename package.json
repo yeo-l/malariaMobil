@@ -46,7 +46,7 @@
     "html-to-image": "^0.1.1",
     "ionic-selectable": "^4.6.0",
     "ng-connection-service": "^1.0.4",
-    "ngx-export-as": "^1.4.2",
+    "ngx-export-as": "^1.14.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "uk.co.workingedge.cordova.plugin.sqliteporter": "^1.1.1",
